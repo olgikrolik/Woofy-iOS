@@ -32,8 +32,8 @@ struct BreedsListView: View {
     
     var body: some View {
         NavigationStack {
+            GeometryReader { reader in
                 ScrollView {
-                    GeometryReader { reader in
                         LazyVGrid(columns: columns, spacing: 2) {
                             ForEach(data, id: \.self) { image in
                                 AsyncImage(url: URL(string: image)) { image in
@@ -45,10 +45,8 @@ struct BreedsListView: View {
                                 } placeholder: {
                                     ProgressView()
                                 }
-                                .frame(width: (reader.size.width / 2), height: (reader.size.width / 2) * 4/3 )
-                                .border(.blue)
+//                                .frame(width: (reader.size.width / 2), height: (reader.size.width / 2) * 4/3 )
                             }
-//                            .aspectRatio(contentMode: .fill)
                         }
                     }
                 }
