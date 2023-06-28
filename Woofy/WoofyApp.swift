@@ -11,7 +11,7 @@ import SwiftUI
 struct WoofyApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            BreedsListView()
         }
     }
 }

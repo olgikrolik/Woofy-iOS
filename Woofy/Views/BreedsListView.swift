@@ -19,11 +19,6 @@ struct BreedsListView: View {
                 "https://cdn2.thedogapi.com/images/33mJ-V3RX.jpg",
                 "https://cdn2.thedogapi.com/images/-HgpNnGXl.jpg"
     ]
-//    let columns = [
-////        GridItem(.fixed(203)),
-////        GridItem(.flexible())
-//        GridItem(.adaptive(minimum: 150), spacing: 2)
-//    ]
     
     let columns = [
         GridItem(.flexible()),
@@ -32,27 +27,39 @@ struct BreedsListView: View {
     
     var body: some View {
         NavigationStack {
+            ZStack {
+                
             GeometryReader { reader in
                 ScrollView {
-                        LazyVGrid(columns: columns, spacing: 2) {
-                            ForEach(data, id: \.self) { image in
+                    LazyVGrid(columns: columns, spacing: 2) {
+                        ForEach(data, id: \.self) { image in
+                            ZStack (alignment: .bottom) {
                                 AsyncImage(url: URL(string: image)) { image in
                                     image
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(width: (reader.size.width / 2), height: (reader.size.width / 2) * 4/3 )
-                                        .clipped()
+                                        .frame(width: ((reader.size.width / 2) - 16), height: ((reader.size.width / 2) - 16) * 4/3 )
+                                        .cornerRadius(5)
+                                    
                                 } placeholder: {
                                     ProgressView()
                                 }
-//                                .frame(width: (reader.size.width / 2), height: (reader.size.width / 2) * 4/3 )
+                                RoundedRectangle(cornerRadius: 5)
+                                    .frame(height: 50)
+                                    .foregroundStyle(.ultraThinMaterial)
+                                    .opacity(0.9)
+                                Text("Doggy")
+                                    .padding(.vertical)
                             }
                         }
                     }
+                    .padding(.leading, 18)
+                    .padding(.trailing, 18)
                 }
-                .navigationBarTitle("Breeds")
-                .padding()
             }
+            .navigationBarTitle("Breeds")
+        }
+        }
         .searchable(text: $searchText, prompt: "Type a breed")
     }
 }
