@@ -9,6 +9,11 @@ import SwiftUI
 
 @main
 struct WoofyApp: App {
+    
+    init() {
+        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "Trocchi-Regular" , size: 34)!]
+    }
+    
     var body: some Scene {
         WindowGroup {
             BreedsListView()
