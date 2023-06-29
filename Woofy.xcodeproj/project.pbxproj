@@ -12,6 +12,7 @@
 		63376C092A41815100A23A10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63376C082A41815100A23A10 /* Preview Assets.xcassets */; };
 		63376C102A4181E200A23A10 /* BreedsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63376C0F2A4181E200A23A10 /* BreedsListView.swift */; };
 		63D493332A4CC901001865BA /* Trocchi-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63D493312A4CC7D4001865BA /* Trocchi-Regular.ttf */; };
+		63D493362A4E28BC001865BA /* BreedDetailsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D493352A4E28BC001865BA /* BreedDetailsData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		63376C0F2A4181E200A23A10 /* BreedsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedsListView.swift; sourceTree = "<group>"; };
 		63D493312A4CC7D4001865BA /* Trocchi-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Trocchi-Regular.ttf"; sourceTree = "<group>"; };
 		63D493322A4CC828001865BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		63D493352A4E28BC001865BA /* BreedDetailsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedDetailsData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 				63D493322A4CC828001865BA /* Info.plist */,
 				63376C012A41815000A23A10 /* WoofyApp.swift */,
 				63376C112A4181F900A23A10 /* Views */,
+				63D493342A4E2879001865BA /* Models */,
 				63376C052A41815100A23A10 /* Assets.xcassets */,
 				63D493302A4CC730001865BA /* Fonts */,
 				63376C072A41815100A23A10 /* Preview Content */,
@@ -86,6 +89,14 @@
 				63D493312A4CC7D4001865BA /* Trocchi-Regular.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		63D493342A4E2879001865BA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				63D493352A4E28BC001865BA /* BreedDetailsData.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -159,6 +170,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63D493362A4E28BC001865BA /* BreedDetailsData.swift in Sources */,
 				63376C102A4181E200A23A10 /* BreedsListView.swift in Sources */,
 				63376C022A41815000A23A10 /* WoofyApp.swift in Sources */,
 			);

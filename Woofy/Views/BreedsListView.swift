@@ -7,7 +7,29 @@
 
 import SwiftUI
 
+//class BreedsListViewModel: ObservableObject {
+//    @Published var dogs: [Dogs]
+//    @Published var isLoading = false
+//    let service = APIService()
+//
+//    func onAppear() {
+//        Task {
+//            do {
+//                let dogs = await service.fetchDogs()
+//            } catch {
+//                print(error)
+//            }
+//
+//            ///
+//            self.dogs =
+//        }
+//
+//    }
+//}
+
 struct BreedsListView: View {
+    
+//    @ObservableObject var viewModel = BreedsListViewModel()
     
     @State private var searchText = ""
     let data = ["https://cdn2.thedogapi.com/images/BJa4kxc4X.jpg",
@@ -24,11 +46,11 @@ struct BreedsListView: View {
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
-                Color("Color")
+                Color("BackgroundColor")
                     .edgesIgnoringSafeArea(.all)
                 GeometryReader { reader in
                     ScrollView {
@@ -59,12 +81,10 @@ struct BreedsListView: View {
                         .padding(.trailing, 18)
                     }
                 }
-                .navigationBarTitle("Breeds")
+                .navigationBarTitle("Breeds", displayMode: .large)
             }
         }
         .searchable(text: $searchText, prompt: "Type a breed")
-        
-        
     }
 }
 
