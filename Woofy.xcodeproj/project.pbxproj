@@ -13,6 +13,8 @@
 		63376C102A4181E200A23A10 /* BreedsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63376C0F2A4181E200A23A10 /* BreedsListView.swift */; };
 		63D493332A4CC901001865BA /* Trocchi-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63D493312A4CC7D4001865BA /* Trocchi-Regular.ttf */; };
 		63D493362A4E28BC001865BA /* Breed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D493352A4E28BC001865BA /* Breed.swift */; };
+		63D493392A51E558001865BA /* BreedsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D493382A51E558001865BA /* BreedsListViewModel.swift */; };
+		63D4933B2A51EAE8001865BA /* BreedsAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4933A2A51EAE8001865BA /* BreedsAPIService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		63D493312A4CC7D4001865BA /* Trocchi-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Trocchi-Regular.ttf"; sourceTree = "<group>"; };
 		63D493322A4CC828001865BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		63D493352A4E28BC001865BA /* Breed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breed.swift; sourceTree = "<group>"; };
+		63D493382A51E558001865BA /* BreedsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedsListViewModel.swift; sourceTree = "<group>"; };
+		63D4933A2A51EAE8001865BA /* BreedsAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedsAPIService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +63,7 @@
 				63D493322A4CC828001865BA /* Info.plist */,
 				63376C012A41815000A23A10 /* WoofyApp.swift */,
 				63376C112A4181F900A23A10 /* Views */,
+				63D493372A51E4E7001865BA /* View Models */,
 				63D493342A4E2879001865BA /* Models */,
 				63376C052A41815100A23A10 /* Assets.xcassets */,
 				63D493302A4CC730001865BA /* Fonts */,
@@ -95,8 +100,17 @@
 			isa = PBXGroup;
 			children = (
 				63D493352A4E28BC001865BA /* Breed.swift */,
+				63D4933A2A51EAE8001865BA /* BreedsAPIService.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		63D493372A51E4E7001865BA /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				63D493382A51E558001865BA /* BreedsListViewModel.swift */,
+			);
+			path = "View Models";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -171,6 +185,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				63D493362A4E28BC001865BA /* Breed.swift in Sources */,
+				63D4933B2A51EAE8001865BA /* BreedsAPIService.swift in Sources */,
+				63D493392A51E558001865BA /* BreedsListViewModel.swift in Sources */,
 				63376C102A4181E200A23A10 /* BreedsListView.swift in Sources */,
 				63376C022A41815000A23A10 /* WoofyApp.swift in Sources */,
 			);

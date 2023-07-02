@@ -7,40 +7,11 @@
 
 import SwiftUI
 
-//class BreedsListViewModel: ObservableObject {
-//    @Published var dogs: [Dogs]
-//    @Published var isLoading = false
-//    let service = APIService()
-//
-//    func onAppear() {
-//        Task {
-//            do {
-//                let dogs = await service.fetchDogs()
-//            } catch {
-//                print(error)
-//            }
-//
-//            ///
-//            self.dogs =
-//        }
-//
-//    }
-//}
-
 struct BreedsListView: View {
     
-//    @ObservableObject var viewModel = BreedsListViewModel()
+    @ObservedObject var breedsListViewModel = BreedsListViewModel()
     
     @State private var searchText = ""
-    let data = ["https://cdn2.thedogapi.com/images/BJa4kxc4X.jpg",
-                "https://cdn2.thedogapi.com/images/hMyT4CDXR.jpg",
-                "https://cdn2.thedogapi.com/images/rkiByec47.jpg",
-                "https://cdn2.thedogapi.com/images/1-7cgoZSh.jpg",
-                "https://cdn2.thedogapi.com/images/26pHT3Qk7.jpg",
-                "https://cdn2.thedogapi.com/images/BFRYBufpm.jpg",
-                "https://cdn2.thedogapi.com/images/33mJ-V3RX.jpg",
-                "https://cdn2.thedogapi.com/images/-HgpNnGXl.jpg"
-    ]
     
     let columns = [
         GridItem(.flexible()),
@@ -55,25 +26,29 @@ struct BreedsListView: View {
                 GeometryReader { reader in
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 2) {
-                            ForEach(data, id: \.self) { image in
-                                AsyncImage(url: URL(string: image)) { image in
-                                    ZStack (alignment: .bottom) {
-                                        image
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: ((reader.size.width / 2) - 16), height: ((reader.size.width / 2) - 16) * 4/3 )
-                                            .cornerRadius(5)
-                                        RoundedRectangle(cornerRadius: 5)
-                                            .frame(height: 50)
-                                            .foregroundStyle(.ultraThinMaterial)
-                                            .opacity(0.9)
-                                        Text("Australian Terrier")
-                                            .font(.custom("Trocchi-Regular", size: 14))
-                                            .padding(.vertical)
+                            ForEach(breedsListViewModel.breedsInfo, id: \.id) { breed in
+                                if breed.image != nil {
+                                    AsyncImage(url: breed.image) { image in
+                                        ZStack (alignment: .bottom) {
+                                            image
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                                .frame(width: ((reader.size.width / 2) - 16), height: ((reader.size.width / 2) - 16) * 4/3 )
+                                                .cornerRadius(5)
+                                            RoundedRectangle(cornerRadius: 5)
+                                                .frame(height: 50)
+                                                .foregroundStyle(.ultraThinMaterial)
+                                                .opacity(0.9)
+                                            Text(breed.name)
+                                                .font(.custom("Trocchi-Regular", size: 14))
+                                                .padding(.vertical)
+                                        }
+                                        
+                                    } placeholder: {
+                                        ProgressView()
                                     }
+                                } else {
                                     
-                                } placeholder: {
-                                    ProgressView()
                                 }
                             }
                         }
@@ -83,8 +58,17 @@ struct BreedsListView: View {
                 }
                 .navigationBarTitle("Breeds", displayMode: .large)
             }
+            .alert(isPresented: $breedsListViewModel.showInternetConnectionError) {
+                Alert(title: Text("Internet Connection Error"), message: Text("Please check your internet connection or try again later."), dismissButton: .default(Text("OK")))
+            }
         }
         .searchable(text: $searchText, prompt: "Type a breed")
+        .onAppear{
+            breedsListViewModel.onAppear()
+        }
+        .alert(isPresented: $breedsListViewModel.showGeneralError) {
+            Alert(title: Text("Error"), message: Text("Oops! Something went wrong."), dismissButton: .default(Text("OK")))
+        }
     }
 }
 
