@@ -27,7 +27,6 @@ struct BreedsListView: View {
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 2) {
                             ForEach(breedsListViewModel.breedsInfo, id: \.id) { breed in
-                                if breed.image != nil {
                                     AsyncImage(url: breed.image) { image in
                                         ZStack (alignment: .bottom) {
                                             image
@@ -53,9 +52,11 @@ struct BreedsListView: View {
                                             ProgressView()
                                         }
                                     }
-                                } else {
-                                    
-                                }
+                                    .onAppear {
+                                        if breed == breedsListViewModel.breedsInfo.last {
+                                            breedsListViewModel.loadNextpage()
+                                        }
+                                    }
                             }
                         }
                         .padding(.leading, 18)
@@ -70,7 +71,7 @@ struct BreedsListView: View {
         }
         .searchable(text: $searchText, prompt: "Type a breed")
         .onAppear{
-            breedsListViewModel.onAppear()
+            breedsListViewModel.loadFirstPage()
         }
         .alert(isPresented: $breedsListViewModel.showGeneralError) {
             Alert(title: Text("Error"), message: Text("Oops! Something went wrong."), dismissButton: .default(Text("OK")))

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BreedInfo: Identifiable {
+struct BreedInfo: Identifiable, Equatable {
     let id: UUID
     let name: String
     let image: URL?
@@ -19,12 +19,25 @@ class BreedsListViewModel: ObservableObject {
     @Published var breedsInfo: [BreedInfo] = []
     @Published var showInternetConnectionError = false
     @Published var showGeneralError = false
-    let service = BreedsAPIService()
     
-    func onAppear() {
+    private let service = BreedsAPIService()
+    private var page = 0
+    private let pageLimit = 20
+    
+    func loadFirstPage() {
+        page = 0
+        loadData()
+    }
+    
+    func loadNextpage() {
+        page += 1
+        loadData()
+    }
+    
+    private func loadData() {
         Task {
             do {
-                let breeds = try await service.getBreeds()
+                let breeds = try await service.getBreeds(page: page, pageLimit: pageLimit)
                 var breedsInfo: [BreedInfo] = []
                 for breed in breeds {
                     let id = breed.id
@@ -32,7 +45,7 @@ class BreedsListViewModel: ObservableObject {
                     let image = breed.image.imageUrl
                     breedsInfo.append(BreedInfo(id: id, name: name, image: image))
                 }
-                self.breedsInfo = breedsInfo
+                self.breedsInfo.append(contentsOf: breedsInfo)
             } catch BreedsAPIService.APIError.internetConnectionError {
                 DispatchQueue.main.async {
                     self.showInternetConnectionError = true

@@ -9,8 +9,8 @@ import Foundation
 
 class BreedsAPIService {
     
-    func getBreeds() async throws -> [Breed] {
-        let endpoint = "https://api.thedogapi.com/v1/breeds"
+    func getBreeds(page: Int, pageLimit: Int) async throws -> [Breed] {
+        let endpoint = "https://api.thedogapi.com/v1/breeds?page=\(page)&limit=\(pageLimit)"
         
         guard let url = URL(string: endpoint) else {
             throw APIError.invalidURL
