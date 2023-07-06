@@ -35,17 +35,23 @@ struct BreedsListView: View {
                                                 .aspectRatio(contentMode: .fill)
                                                 .frame(width: ((reader.size.width / 2) - 16), height: ((reader.size.width / 2) - 16) * 4/3 )
                                                 .cornerRadius(5)
-                                            RoundedRectangle(cornerRadius: 5)
-                                                .frame(height: 50)
-                                                .foregroundStyle(.ultraThinMaterial)
-                                                .opacity(0.9)
-                                            Text(breed.name)
-                                                .font(.custom("Trocchi-Regular", size: 14))
-                                                .padding(.vertical)
+                                            ZStack (alignment: .center) {
+                                                RoundedRectangle(cornerRadius: 5)
+                                                    .frame(height: 50)
+                                                    .foregroundStyle(.ultraThinMaterial)
+                                                    .opacity(0.9)
+                                                Text(breed.name)
+                                                    .font(.custom("Trocchi-Regular", size: 14))
+                                                    .multilineTextAlignment(.center)
+                                            }
                                         }
-                                        
                                     } placeholder: {
-                                        ProgressView()
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 5)
+                                                .frame(width: ((reader.size.width / 2) - 16), height: ((reader.size.width / 2) - 16) * 4/3 )
+                                                .foregroundColor(.white.opacity(0.5))
+                                            ProgressView()
+                                        }
                                     }
                                 } else {
                                     
