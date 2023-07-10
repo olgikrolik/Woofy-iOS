@@ -15,9 +15,10 @@ struct Breed: Codable, Identifiable {
     let lifeSpan: String
     let temperament: String?
     let origin: String?
-    let image: Image
+    let image: Image?
     let weight: Weight
     let height: Height
+    let referenceImageId: String?
     
     enum CodingKeys: String, CodingKey {
         case name = "name"
@@ -29,13 +30,14 @@ struct Breed: Codable, Identifiable {
         case image = "image"
         case weight = "weight"
         case height = "height"
+        case referenceImageId = "reference_image_id"
     }
 
 }
 
 
 struct Image: Codable {
-    let imageUrl: URL
+    let imageUrl: URL?
     
     enum CodingKeys: String, CodingKey {
         case imageUrl = "url"

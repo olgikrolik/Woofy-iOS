@@ -37,12 +37,12 @@ class BreedsListViewModel: ObservableObject {
     private func loadData() {
         Task {
             do {
-                let breeds = try await service.getBreeds(page: page, pageLimit: pageLimit)
+                let breeds = try await service.getBreedsByPage(page: page, pageLimit: pageLimit)
                 var breedsInfo: [BreedInfo] = []
                 for breed in breeds {
                     let id = breed.id
                     let name = breed.name
-                    let image = breed.image.imageUrl
+                    let image = breed.image?.imageUrl
                     breedsInfo.append(BreedInfo(id: id, name: name, image: image))
                 }
                 self.breedsInfo.append(contentsOf: breedsInfo)
@@ -54,6 +54,30 @@ class BreedsListViewModel: ObservableObject {
                 DispatchQueue.main.async {
                     self.showGeneralError = true
                 }
+            }
+        }
+    }
+    
+    func searchData(breedName: String) async {
+        do {
+            let breeds = try await service.getBreedsByName(searchTerm: breedName)
+            var breedsInfo: [BreedInfo] = []
+            for breed in breeds {
+                let id = breed.id
+                let name = breed.name
+                if let referenceImageId = breed.referenceImageId {
+                    let imageUrl = service.createImageUrlForReferenceId(referenceImageId: referenceImageId)
+                    breedsInfo.append(BreedInfo(id: id, name: name, image: imageUrl))
+                }
+            }
+            self.breedsInfo = breedsInfo
+        } catch BreedsAPIService.APIError.internetConnectionError {
+            DispatchQueue.main.async {
+                self.showInternetConnectionError = true
+            }
+        } catch {
+            DispatchQueue.main.async {
+                self.showGeneralError = true
             }
         }
     }

@@ -9,9 +9,25 @@ import Foundation
 
 class BreedsAPIService {
     
-    func getBreeds(page: Int, pageLimit: Int) async throws -> [Breed] {
-        let endpoint = "https://api.thedogapi.com/v1/breeds?page=\(page)&limit=\(pageLimit)"
-        
+    private let baseUrl = "https://api.thedogapi.com"
+    
+    func createImageUrlForReferenceId(referenceImageId: String) -> URL {
+        let endpoint = URL(string: "https://cdn2.thedogapi.com/images/\(referenceImageId).jpg")!
+        return endpoint
+    }
+    
+    func getBreedsByName(searchTerm: String) async throws -> [Breed] {
+        let endpoint = "\(baseUrl)/v1/breeds/search?q=\(searchTerm)"
+        return try await getBreeds(endpoint: endpoint)
+    }
+    
+    func getBreedsByPage(page: Int, pageLimit: Int) async throws -> [Breed] {
+        let endpoint = "\(baseUrl)/v1/breeds?page=\(page)&limit=\(pageLimit)"
+        return try await getBreeds(endpoint: endpoint)
+    }
+    
+    private func getBreeds(endpoint: String) async throws -> [Breed] {
+
         guard let url = URL(string: endpoint) else {
             throw APIError.invalidURL
         }

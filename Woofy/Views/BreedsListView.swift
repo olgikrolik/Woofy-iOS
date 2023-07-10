@@ -10,14 +10,13 @@ import SwiftUI
 struct BreedsListView: View {
     
     @ObservedObject var breedsListViewModel = BreedsListViewModel()
-    
     @State private var searchText = ""
     
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -27,49 +26,57 @@ struct BreedsListView: View {
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 2) {
                             ForEach(breedsListViewModel.breedsInfo, id: \.id) { breed in
-                                    AsyncImage(url: breed.image) { image in
-                                        ZStack (alignment: .bottom) {
-                                            image
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fill)
-                                                .frame(width: ((reader.size.width / 2) - 16), height: ((reader.size.width / 2) - 16) * 4/3 )
-                                                .cornerRadius(5)
-                                            ZStack (alignment: .center) {
-                                                RoundedRectangle(cornerRadius: 5)
-                                                    .frame(height: 50)
-                                                    .foregroundStyle(.ultraThinMaterial)
-                                                    .opacity(0.9)
-                                                Text(breed.name)
-                                                    .font(.custom("Trocchi-Regular", size: 14))
-                                                    .multilineTextAlignment(.center)
-                                            }
-                                        }
-                                    } placeholder: {
-                                        ZStack {
+                                AsyncImage(url: breed.image) { image in
+                                    ZStack (alignment: .bottom) {
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: ((reader.size.width / 2) - 16), height: ((reader.size.width / 2) - 16) * 4/3 )
+                                            .cornerRadius(5)
+                                        ZStack (alignment: .center) {
                                             RoundedRectangle(cornerRadius: 5)
-                                                .frame(width: ((reader.size.width / 2) - 16), height: ((reader.size.width / 2) - 16) * 4/3 )
-                                                .foregroundColor(.white.opacity(0.5))
-                                            ProgressView()
+                                                .frame(height: 50)
+                                                .foregroundStyle(.ultraThinMaterial)
+                                                .opacity(0.9)
+                                            Text(breed.name)
+                                                .font(.custom("Trocchi-Regular", size: 14))
+                                                .multilineTextAlignment(.center)
                                         }
                                     }
-                                    .onAppear {
-                                        if breed == breedsListViewModel.breedsInfo.last {
-                                            breedsListViewModel.loadNextpage()
-                                        }
+                                } placeholder: {
+                                    ZStack {
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .frame(width: ((reader.size.width / 2) - 16), height: ((reader.size.width / 2) - 16) * 4/3 )
+                                            .foregroundColor(.white.opacity(0.5))
+                                        ProgressView()
                                     }
+                                }
+                                .onAppear {
+                                    if breed == breedsListViewModel.breedsInfo.last {
+                                        breedsListViewModel.loadNextpage()
+                                    }
+                                }
+                                .padding(.leading, 18)
+                                .padding(.trailing, 18)
                             }
                         }
-                        .padding(.leading, 18)
-                        .padding(.trailing, 18)
+                        .navigationBarTitle("Breeds", displayMode: .large)
+                    }
+                    .alert(isPresented: $breedsListViewModel.showInternetConnectionError) {
+                        Alert(title: Text("Internet Connection Error"), message: Text("Please check your internet connection or try again later."), dismissButton: .default(Text("OK")))
                     }
                 }
-                .navigationBarTitle("Breeds", displayMode: .large)
-            }
-            .alert(isPresented: $breedsListViewModel.showInternetConnectionError) {
-                Alert(title: Text("Internet Connection Error"), message: Text("Please check your internet connection or try again later."), dismissButton: .default(Text("OK")))
+                .searchable(text: $searchText, prompt: "Type a breed")
+                .onChange(of: searchText) { value in
+                    Task {
+                        if !value.isEmpty && value.count > 1 {
+                            await breedsListViewModel.searchData(breedName: value)
+                        }
+                    }
+                }
+                
             }
         }
-        .searchable(text: $searchText, prompt: "Type a breed")
         .onAppear{
             breedsListViewModel.loadFirstPage()
         }
