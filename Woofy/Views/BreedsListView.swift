@@ -56,27 +56,28 @@ struct BreedsListView: View {
                                         breedsListViewModel.loadNextpage()
                                     }
                                 }
-                                .padding(.leading, 18)
-                                .padding(.trailing, 18)
                             }
                         }
-                        .navigationBarTitle("Breeds", displayMode: .large)
-                    }
-                    .alert(isPresented: $breedsListViewModel.showInternetConnectionError) {
-                        Alert(title: Text("Internet Connection Error"), message: Text("Please check your internet connection or try again later."), dismissButton: .default(Text("OK")))
-                    }
-                }
-                .searchable(text: $searchText, prompt: "Type a breed")
-                .onChange(of: searchText) { value in
-                    Task {
-                        if !value.isEmpty && value.count > 1 {
-                            await breedsListViewModel.searchData(breedName: value)
-                        }
+                        .padding(.leading, 18)
+                        .padding(.trailing, 18)
                     }
                 }
                 
+                .navigationBarTitle("Breeds", displayMode: .large)
+            }
+            .alert(isPresented: $breedsListViewModel.showInternetConnectionError) {
+                Alert(title: Text("Internet Connection Error"), message: Text("Please check your internet connection or try again later."), dismissButton: .default(Text("OK")))
             }
         }
+        .searchable(text: $searchText, prompt: "Type a breed")
+        .onChange(of: searchText) { value in
+            Task {
+                if !value.isEmpty && value.count > 1 {
+                    await breedsListViewModel.searchData(breedName: value)
+                }
+            }
+        }
+        
         .onAppear{
             breedsListViewModel.loadFirstPage()
         }
