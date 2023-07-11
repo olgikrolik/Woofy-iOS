@@ -11,6 +11,7 @@ struct BreedsListView: View {
     
     @ObservedObject var breedsListViewModel = BreedsListViewModel()
     @State private var searchText = ""
+    @State private var isSearching = false
     
     let columns = [
         GridItem(.flexible()),
@@ -52,7 +53,7 @@ struct BreedsListView: View {
                                     }
                                 }
                                 .onAppear {
-                                    if breed == breedsListViewModel.breedsInfo.last {
+                                    if breed == breedsListViewModel.breedsInfo.last && !isSearching {
                                         breedsListViewModel.loadNextpage()
                                     }
                                 }
@@ -72,12 +73,10 @@ struct BreedsListView: View {
         .searchable(text: $searchText, prompt: "Type a breed")
         .onChange(of: searchText) { value in
             Task {
-                if !value.isEmpty && value.count > 1 {
-                    await breedsListViewModel.searchData(breedName: value)
-                }
+                await breedsListViewModel.searchData(breedName: value)
+                isSearching = !value.isEmpty
             }
         }
-        
         .onAppear{
             breedsListViewModel.loadFirstPage()
         }

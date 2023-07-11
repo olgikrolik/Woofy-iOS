@@ -70,7 +70,12 @@ class BreedsListViewModel: ObservableObject {
                     breedsInfo.append(BreedInfo(id: id, name: name, image: imageUrl))
                 }
             }
-            self.breedsInfo = breedsInfo
+            DispatchQueue.main.async {
+                print("🥳🥳PRINTING ")
+                print(breedsInfo)
+                print("🥳END - PRINTING ")
+                self.breedsInfo = breedsInfo
+            }
         } catch BreedsAPIService.APIError.internetConnectionError {
             DispatchQueue.main.async {
                 self.showInternetConnectionError = true
