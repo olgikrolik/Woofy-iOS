@@ -23,6 +23,7 @@ class BreedsListViewModel: ObservableObject {
     private let service = BreedsAPIService()
     private var page = 0
     private let pageLimit = 20
+    private var isSearching = false
     
     func loadFirstPage() {
         page = 0
@@ -32,6 +33,19 @@ class BreedsListViewModel: ObservableObject {
     func loadNextpage() {
         page += 1
         loadData()
+    }
+    
+    func searchByBreedName(breedName: String) {
+        Task {
+            await searchData(breedName: breedName)
+            isSearching = !breedName.isEmpty
+        }
+    }
+    
+    func doPaginationIfNeeded(lastVisibleBreed: BreedInfo) {
+        if lastVisibleBreed == breedsInfo.last && !isSearching {
+        loadNextpage()
+        }
     }
     
     private func loadData() {
@@ -71,9 +85,6 @@ class BreedsListViewModel: ObservableObject {
                 }
             }
             DispatchQueue.main.async {
-                print("🥳🥳PRINTING ")
-                print(breedsInfo)
-                print("🥳END - PRINTING ")
                 self.breedsInfo = breedsInfo
             }
         } catch BreedsAPIService.APIError.internetConnectionError {
