@@ -61,13 +61,9 @@ class BreedsListViewModel: ObservableObject {
                 }
                 self.breedsInfo.append(contentsOf: breedsInfo)
             } catch BreedsAPIService.APIError.internetConnectionError {
-                DispatchQueue.main.async {
-                    self.showInternetConnectionError = true
-                }
+                self.showInternetConnectionError = true
             } catch {
-                DispatchQueue.main.async {
-                    self.showGeneralError = true
-                }
+                self.showGeneralError = true
             }
         }
     }
@@ -79,22 +75,17 @@ class BreedsListViewModel: ObservableObject {
             for breed in breeds {
                 let id = breed.id
                 let name = breed.name
+                var imageUrl: URL?
                 if let referenceImageId = breed.referenceImageId {
-                    let imageUrl = service.createImageUrlForReferenceId(referenceImageId: referenceImageId)
-                    breedsInfo.append(BreedInfo(id: id, name: name, image: imageUrl))
+                    imageUrl = service.createImageUrlForReferenceId(referenceImageId: referenceImageId)
                 }
+                breedsInfo.append(BreedInfo(id: id, name: name, image: imageUrl))
             }
-            DispatchQueue.main.async {
-                self.breedsInfo = breedsInfo
-            }
+            self.breedsInfo = breedsInfo
         } catch BreedsAPIService.APIError.internetConnectionError {
-            DispatchQueue.main.async {
-                self.showInternetConnectionError = true
-            }
+            self.showInternetConnectionError = true
         } catch {
-            DispatchQueue.main.async {
-                self.showGeneralError = true
-            }
+            self.showGeneralError = true
         }
     }
 }

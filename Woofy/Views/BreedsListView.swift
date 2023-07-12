@@ -20,40 +20,15 @@ struct BreedsListView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color("BackgroundColor")
-                    .edgesIgnoringSafeArea(.all)
+                backgroundColor
                 GeometryReader { reader in
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 2) {
                             ForEach(breedsListViewModel.breedsInfo, id: \.id) { breed in
-                                AsyncImage(url: breed.image) { image in
-                                    ZStack (alignment: .bottom) {
-                                        image
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: ((reader.size.width / 2) - 16), height: ((reader.size.width / 2) - 16) * 4/3 )
-                                            .cornerRadius(5)
-                                        ZStack (alignment: .center) {
-                                            RoundedRectangle(cornerRadius: 5)
-                                                .frame(height: 50)
-                                                .foregroundStyle(.ultraThinMaterial)
-                                                .opacity(0.9)
-                                            Text(breed.name)
-                                                .font(.custom("Trocchi-Regular", size: 14))
-                                                .multilineTextAlignment(.center)
-                                        }
+                                breedImageWithName(breed: breed, reader: reader)
+                                    .onAppear {
+                                        breedsListViewModel.doPaginationIfNeeded(lastVisibleBreed: breed)
                                     }
-                                } placeholder: {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 5)
-                                            .frame(width: ((reader.size.width / 2) - 16), height: ((reader.size.width / 2) - 16) * 4/3 )
-                                            .foregroundColor(.white.opacity(0.5))
-                                        ProgressView()
-                                    }
-                                }
-                                .onAppear {
-                                    breedsListViewModel.doPaginationIfNeeded(lastVisibleBreed: breed)
-                                }
                             }
                         }
                         .padding(.leading, 18)
@@ -78,10 +53,59 @@ struct BreedsListView: View {
             Alert(title: Text("Error"), message: Text("Oops! Something went wrong."), dismissButton: .default(Text("OK")))
         }
     }
-}
-
-struct BreedsListView_Previews: PreviewProvider {
-    static var previews: some View {
-        BreedsListView()
+    
+    var backgroundColor: some View {
+        Color("BackgroundColor")
+            .edgesIgnoringSafeArea(.all)
     }
+    
+    func breedImageWithName(breed: BreedInfo, reader: GeometryProxy) -> some View {
+        AsyncImage(url: breed.image) { image in
+            ZStack (alignment: .bottom) {
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: ((reader.size.width / 2) - 16), height: ((reader.size.width / 2) - 16) * 4/3 )
+                    .cornerRadius(5)
+                ZStack (alignment: .center) {
+                    breedNameFrame
+                    breedName(breed: breed)
+                }
+            }
+        } placeholder: {
+            ZStack (alignment: .bottom) {
+                Image("WoofyDefaultImage")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: ((reader.size.width / 2) - 16), height: ((reader.size.width / 2) - 16) * 4/3 )
+                    .cornerRadius(5)
+                ZStack (alignment: .center) {
+                    breedNameFrame
+                    breedName(breed: breed)
+                }
+            }
+        }
+    }
+    
+    var breedNameFrame: some View {
+        RoundedRectangle(cornerRadius: 5)
+            .frame(height: 50)
+            .foregroundStyle(.ultraThinMaterial)
+            .opacity(0.9)
+    }
+    
+    func breedName(breed: BreedInfo) -> some View {
+        Text(breed.name)
+            .font(.custom("Trocchi-Regular", size: 14))
+            .multilineTextAlignment(.center)
+    }
+    
+    
+    
 }
+    
+    struct BreedsListView_Previews: PreviewProvider {
+        static var previews: some View {
+            BreedsListView()
+        }
+    }

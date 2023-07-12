@@ -15,7 +15,7 @@ struct Breed: Codable, Identifiable {
     let lifeSpan: String
     let temperament: String?
     let origin: String?
-    let image: Image?
+    let image: BreedImage?
     let weight: Weight
     let height: Height
     let referenceImageId: String?
@@ -36,7 +36,7 @@ struct Breed: Codable, Identifiable {
 }
 
 
-struct Image: Codable {
+struct BreedImage: Codable {
     let imageUrl: URL?
     
     enum CodingKeys: String, CodingKey {
