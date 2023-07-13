@@ -16,7 +16,15 @@ class BreedsAPIService {
         return endpoint
     }
     
+    func addPlusBetweenWords(searchBreedTerm: String) -> String {
+        let breedWithPlusBetweenWords = searchBreedTerm.replacingOccurrences(of: " ", with: "+")
+        
+        return breedWithPlusBetweenWords
+    }
+    
+    
     func getBreedsByName(searchTerm: String) async throws -> [Breed] {
+        let searchTerm = addPlusBetweenWords(searchBreedTerm: searchTerm)
         let endpoint = "\(baseUrl)/v1/breeds/search?q=\(searchTerm)"
         return try await getBreeds(endpoint: endpoint)
     }

@@ -30,15 +30,25 @@ class BreedsListViewModel: ObservableObject {
         loadData()
     }
     
-    func loadNextpage() {
+    private func loadNextpage() {
         page += 1
         loadData()
     }
     
+    func didChangeSearchQuery(searchBreedTerm: String) {
+        if !searchBreedTerm.isEmpty {
+            searchByBreedName(breedName: searchBreedTerm)
+        } else {
+            breedsInfo.removeAll()
+            isSearching = false
+            loadFirstPage()
+        }
+    }
+    
     func searchByBreedName(breedName: String) {
         Task {
-            await searchData(breedName: breedName)
             isSearching = !breedName.isEmpty
+            await searchData(breedName: breedName)
         }
     }
     

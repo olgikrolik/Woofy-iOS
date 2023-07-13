@@ -35,7 +35,6 @@ struct BreedsListView: View {
                         .padding(.trailing, 18)
                     }
                 }
-                
                 .navigationBarTitle("Breeds", displayMode: .large)
             }
             .alert(isPresented: $breedsListViewModel.showInternetConnectionError) {
@@ -44,7 +43,7 @@ struct BreedsListView: View {
         }
         .searchable(text: $searchText, prompt: "Type a breed")
         .onChange(of: searchText) { value in
-            breedsListViewModel.searchByBreedName(breedName: value)
+            breedsListViewModel.didChangeSearchQuery(searchBreedTerm: value)
         }
         .onAppear{
             breedsListViewModel.loadFirstPage()
