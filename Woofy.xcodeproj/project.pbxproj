@@ -11,6 +11,7 @@
 		63376C062A41815100A23A10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63376C052A41815100A23A10 /* Assets.xcassets */; };
 		63376C092A41815100A23A10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63376C082A41815100A23A10 /* Preview Assets.xcassets */; };
 		63376C102A4181E200A23A10 /* BreedsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63376C0F2A4181E200A23A10 /* BreedsListView.swift */; };
+		633901D12A6561D500BDF760 /* BreedDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633901D02A6561D500BDF760 /* BreedDetailsView.swift */; };
 		63D493332A4CC901001865BA /* Trocchi-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 63D493312A4CC7D4001865BA /* Trocchi-Regular.ttf */; };
 		63D493362A4E28BC001865BA /* Breed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D493352A4E28BC001865BA /* Breed.swift */; };
 		63D493392A51E558001865BA /* BreedsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D493382A51E558001865BA /* BreedsListViewModel.swift */; };
@@ -23,6 +24,7 @@
 		63376C052A41815100A23A10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63376C082A41815100A23A10 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		63376C0F2A4181E200A23A10 /* BreedsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedsListView.swift; sourceTree = "<group>"; };
+		633901D02A6561D500BDF760 /* BreedDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedDetailsView.swift; sourceTree = "<group>"; };
 		63D493312A4CC7D4001865BA /* Trocchi-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Trocchi-Regular.ttf"; sourceTree = "<group>"; };
 		63D493322A4CC828001865BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		63D493352A4E28BC001865BA /* Breed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breed.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				63376C0F2A4181E200A23A10 /* BreedsListView.swift */,
+				633901D02A6561D500BDF760 /* BreedDetailsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				633901D12A6561D500BDF760 /* BreedDetailsView.swift in Sources */,
 				63D493362A4E28BC001865BA /* Breed.swift in Sources */,
 				63D4933B2A51EAE8001865BA /* BreedsAPIService.swift in Sources */,
 				63D493392A51E558001865BA /* BreedsListViewModel.swift in Sources */,

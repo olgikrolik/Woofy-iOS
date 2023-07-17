@@ -16,7 +16,7 @@ struct WoofyApp: App {
     
     var body: some Scene {
         WindowGroup {
-            BreedsListView()
+            BreedDetailsView()
         }
     }
 }
