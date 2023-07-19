@@ -16,6 +16,7 @@
 		63D493362A4E28BC001865BA /* Breed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D493352A4E28BC001865BA /* Breed.swift */; };
 		63D493392A51E558001865BA /* BreedsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D493382A51E558001865BA /* BreedsListViewModel.swift */; };
 		63D4933B2A51EAE8001865BA /* BreedsAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D4933A2A51EAE8001865BA /* BreedsAPIService.swift */; };
+		63E3657D2A687142001E1A5B /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 63E3657C2A687142001E1A5B /* WrappingHStack */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63E3657D2A687142001E1A5B /* WrappingHStack in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +134,9 @@
 			dependencies = (
 			);
 			name = Woofy;
+			packageProductDependencies = (
+				63E3657C2A687142001E1A5B /* WrappingHStack */,
+			);
 			productName = Woofy;
 			productReference = 63376BFE2A41815000A23A10 /* Woofy.app */;
 			productType = "com.apple.product-type.application";
@@ -160,6 +165,9 @@
 				Base,
 			);
 			mainGroup = 63376BF52A41815000A23A10;
+			packageReferences = (
+				63E3657B2A687142001E1A5B /* XCRemoteSwiftPackageReference "WrappingHStack" */,
+			);
 			productRefGroup = 63376BFF2A41815000A23A10 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -395,6 +403,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		63E3657B2A687142001E1A5B /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dkk/WrappingHStack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		63E3657C2A687142001E1A5B /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 63E3657B2A687142001E1A5B /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 63376BF62A41815000A23A10 /* Project object */;
 }

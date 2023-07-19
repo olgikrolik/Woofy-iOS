@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import WrappingHStack
 
 struct BreedDetailsView: View {
     
     let breedTitleHeight = 114
+    let temperamentArray = ["Stubborn", "Curious", "Playful", "Adventurous", "Active", "Fun-loving"]
     
     var body: some View {
         VStack(spacing: 0) {
@@ -125,6 +127,19 @@ struct BreedDetailsView: View {
             .padding(.horizontal, horizontalPadding + 8)
             .padding(.top, 15)
             
+            WrappingHStack(temperamentArray, id:\.self, alignment: .center) { temperament in
+                Text(temperament)
+                    .font(.custom("Trocchi-Regular", size: 15))
+                    .padding(.all, 8)
+                    .opacity(0.7)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 30)
+                            .stroke(Color("DetailsColor"), lineWidth: 1)
+                    )
+                    .padding(3)
+            }
+            .padding(.horizontal, horizontalPadding + 8)
+            .padding(.top, 8)
             Spacer()
         }
     }
