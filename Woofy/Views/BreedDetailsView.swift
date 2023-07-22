@@ -14,31 +14,34 @@ struct BreedDetailsView: View {
     let temperamentArray = ["Stubborn", "Curious", "Playful", "Adventurous", "Active", "Fun-loving"]
     
     var body: some View {
-        VStack(spacing: 0) {
-            let imageWidth = UIScreen.main.bounds.size.width
-            let imageHeight = imageWidth * 5/6
-            let horizontalPadding: CGFloat = 24
-            
-            ZStack(alignment: .bottom) {
-                breedImage(imageWidth: imageWidth, imageHeight: imageHeight)
-                backgroundForBreedIntroduction(horizontalPadding: horizontalPadding)
-                breedIntroduction(horizontalPadding: horizontalPadding)
+        ScrollView {
+            VStack(spacing: 0) {
+                let imageWidth = UIScreen.main.bounds.size.width
+                let imageHeight = imageWidth * 5/6
+                let horizontalPadding: CGFloat = 24
+                
+                ZStack(alignment: .bottom) {
+                    breedImage(imageWidth: imageWidth, imageHeight: imageHeight)
+                    backgroundForBreedIntroduction(horizontalPadding: horizontalPadding)
+                    breedIntroduction(horizontalPadding: horizontalPadding)
+                }
+                .frame(width: imageWidth, height: imageHeight + CGFloat((breedTitleHeight * 1/2)), alignment: .top)
+                
+                sectionWithImage(horizontalPadding: horizontalPadding, title: "About breed")
+                
+                HStack {
+                    breedDetailsTile(title: "Weight", value: "3-6 kg")
+                    breedDetailsTile(title: "Height", value: "23-29 cm")
+                    breedDetailsTile(title: "Life span", value: "10-12 yrs")
+                }
+                .padding(.horizontal, horizontalPadding + 8)
+                .padding(.top, 15)
+                
+                sectionWithImage(horizontalPadding: horizontalPadding, title: "Temperament")
+                temperamentalFeatures(temperamentArray: temperamentArray, horizontalPadding: horizontalPadding)
+                
+                Spacer()
             }
-            .frame(width: imageWidth, height: imageHeight + CGFloat((breedTitleHeight * 1/2)), alignment: .top)
-            
-            sectionWithImage(horizontalPadding: horizontalPadding, title: "About breed")
-            
-            HStack {
-                createTile(title: "Weight", value: "3-6 kg")
-                createTile(title: "Height", value: "23-29 cm")
-                createTile(title: "Life span", value: "10-12 yrs")
-            }
-            .padding(.horizontal, horizontalPadding + 8)
-            .padding(.top, 15)
-            
-            sectionWithImage(horizontalPadding: horizontalPadding, title: "Temperament")
-            temperamentalFeatures(temperamentArray: temperamentArray, horizontalPadding: horizontalPadding)
-            Spacer()
         }
     }
     
@@ -74,10 +77,10 @@ struct BreedDetailsView: View {
             VStack(alignment: .leading) {
                 Text("Affenpinscher")
                     .font(.custom("Trocchi-Regular", size: 20))
-                Text("Group:")
+                Text(mergeDefinitionAndDescription(definition: "Group:  ", description: "Toy"))
                     .font(.custom("Trocchi-Regular", size: 15))
                     .opacity(0.7)
-                Text("Special skill:")
+                Text(mergeDefinitionAndDescription(definition: "Special skill: ", description: "Small rodent hunting, lapdog"))
                     .font(.custom("Trocchi-Regular", size: 15))
                     .opacity(0.7)
             }
@@ -87,6 +90,13 @@ struct BreedDetailsView: View {
         .padding(.horizontal, horizontalPadding)
         .frame(height: CGFloat(breedTitleHeight), alignment: .leading)
         .offset(y: CGFloat(breedTitleHeight * 1/2))
+    }
+    
+    func mergeDefinitionAndDescription(definition: String, description: String) -> AttributedString {
+        var definitionAttributedString = AttributedString(definition)
+        var descriptionAttributedString = AttributedString(description)
+        
+        return definitionAttributedString + descriptionAttributedString
     }
     
     func sectionWithImage(horizontalPadding: CGFloat, title: String) -> some View {
@@ -103,7 +113,7 @@ struct BreedDetailsView: View {
         .padding(.top, 15)
     }
     
-    func createTile(title: String, value: String) -> some View {
+    func breedDetailsTile(title: String, value: String) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .foregroundColor(.accentColor)
