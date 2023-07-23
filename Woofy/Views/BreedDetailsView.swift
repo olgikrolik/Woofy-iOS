@@ -12,6 +12,7 @@ struct BreedDetailsView: View {
     
     let breedTitleHeight: CGFloat = 114
     let temperamentArray = ["Stubborn", "Curious", "Playful", "Adventurous", "Active", "Fun-loving"]
+    @State private var isLiked = false
     
     var body: some View {
         ScrollView {
@@ -23,7 +24,7 @@ struct BreedDetailsView: View {
                 ZStack(alignment: .bottom) {
                     breedImage(imageWidth: imageWidth, imageHeight: imageHeight)
                     backgroundForBreedIntroduction(horizontalPadding: horizontalPadding)
-                    breedIntroduction(horizontalPadding: horizontalPadding)
+                    breedIntroduction(horizontalPadding: horizontalPadding, isLiked: isLiked)
                 }
                 .frame(width: imageWidth, height: imageHeight + CGFloat((breedTitleHeight * 1/2)), alignment: .top)
                 
@@ -44,7 +45,6 @@ struct BreedDetailsView: View {
             }
         }
     }
-    
     
     func breedImage(imageWidth: CGFloat, imageHeight: CGFloat) -> some View {
         AsyncImage(url: URL(string: "https://cdn2.thedogapi.com/images/BJa4kxc4X.jpg")) { image in
@@ -72,7 +72,7 @@ struct BreedDetailsView: View {
             .offset(y: CGFloat(breedTitleHeight * 1/2))
     }
     
-    func breedIntroduction(horizontalPadding: CGFloat) -> some View {
+    func breedIntroduction(horizontalPadding: CGFloat, isLiked: Bool) -> some View {
         HStack {
             VStack(alignment: .leading) {
                 Text("Affenpinscher")
@@ -84,8 +84,16 @@ struct BreedDetailsView: View {
                     .font(.custom("Trocchi-Regular", size: 15))
                     .opacity(0.7)
             }
+            Button(action: {
+                self.isLiked.toggle()
+            }, label: {
+                Image(systemName: isLiked ? "heart.fill" : "heart")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 30)
+                    .foregroundColor(isLiked  ? Color("DetailsColor") : .gray)
+            })
             .padding(.horizontal, horizontalPadding)
-            Spacer()
         }
         .padding(.horizontal, horizontalPadding)
         .frame(height: CGFloat(breedTitleHeight), alignment: .leading)
