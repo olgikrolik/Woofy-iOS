@@ -14,6 +14,10 @@ struct BreedDetailsView: View {
     let temperamentArray = ["Stubborn", "Curious", "Playful", "Adventurous", "Active", "Fun-loving"]
     @State private var isLiked = false
     
+    let imageUrl: URL
+    let id: UUID
+    let breedName: String
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
@@ -44,15 +48,17 @@ struct BreedDetailsView: View {
                 Spacer()
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     func breedImage(imageWidth: CGFloat, imageHeight: CGFloat) -> some View {
-        AsyncImage(url: URL(string: "https://cdn2.thedogapi.com/images/BJa4kxc4X.jpg")) { image in
+        AsyncImage(url: imageUrl) { image in
             image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .cornerRadius(5)
                 .frame(width: imageWidth, height: imageHeight)
+                .clipped()
         } placeholder: {
             Image("WoofyDefaultImage")
                 .resizable()
@@ -75,7 +81,7 @@ struct BreedDetailsView: View {
     func breedIntroduction(horizontalPadding: CGFloat, isLiked: Bool) -> some View {
         HStack {
             VStack(alignment: .leading) {
-                Text("Affenpinscher")
+                Text(breedName)
                     .font(.custom("Trocchi-Regular", size: 20))
                 Text(mergeDefinitionAndDescription(definition: "Group:  ", description: "Toy"))
                     .font(.custom("Trocchi-Regular", size: 15))
@@ -86,6 +92,7 @@ struct BreedDetailsView: View {
             }
             Button(action: {
                 self.isLiked.toggle()
+                
             }, label: {
                 Image(systemName: isLiked ? "heart.fill" : "heart")
                     .resizable()
@@ -124,7 +131,7 @@ struct BreedDetailsView: View {
     func breedDetailsTile(title: String, value: String) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
-                .foregroundColor(.accentColor)
+                .foregroundColor(Color("BackgroundColor"))
                 .frame(height: 100)
             VStack {
                 Text(title)
@@ -155,9 +162,9 @@ struct BreedDetailsView: View {
     
 }
 
-
-struct BreedDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        BreedDetailsView()
-    }
-}
+//
+//struct BreedDetailsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        BreedDetailsView(imageUrl: URL(string: "https://cdn2.thedogapi.com/images/BJa4kxc4X.jpg")!, id: <#T##UUID#>)
+//    }
+//}

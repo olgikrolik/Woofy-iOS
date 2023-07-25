@@ -25,10 +25,12 @@ struct BreedsListView: View {
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 2) {
                             ForEach(breedsListViewModel.breedsInfo, id: \.id) { breed in
-                                breedImageWithName(breed: breed, reader: reader)
+                                NavigationLink(value: breed) {
+                                    breedImageWithName(breed: breed, reader: reader)
                                     .onAppear {
                                         breedsListViewModel.doPaginationIfNeeded(lastVisibleBreed: breed)
                                     }
+                                }
                             }
                         }
                         .padding(.leading, 18)
@@ -37,10 +39,16 @@ struct BreedsListView: View {
                 }
                 .navigationBarTitle("Breeds", displayMode: .large)
             }
+            .navigationDestination(for: BreedInfo.self) { breed in
+                if let imageUrl = breed.image {
+                    BreedDetailsView(imageUrl: imageUrl, id: breed.id, breedName: breed.name)
+                }
+            }
             .alert(isPresented: $breedsListViewModel.showInternetConnectionError) {
                 Alert(title: Text("Internet Connection Error"), message: Text("Please check your internet connection or try again later."), dismissButton: .default(Text("OK")))
             }
         }
+        .accentColor(.black)
         .searchable(text: $searchText, prompt: "Type a breed")
         .onChange(of: searchText) { value in
             breedsListViewModel.didChangeSearchQuery(searchBreedTerm: value)
@@ -102,9 +110,9 @@ struct BreedsListView: View {
     
     
 }
-    
-    struct BreedsListView_Previews: PreviewProvider {
-        static var previews: some View {
-            BreedsListView()
-        }
+
+struct BreedsListView_Previews: PreviewProvider {
+    static var previews: some View {
+        BreedsListView()
     }
+}

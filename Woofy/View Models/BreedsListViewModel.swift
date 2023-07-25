@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BreedInfo: Identifiable, Equatable {
+struct BreedInfo: Identifiable, Equatable, Hashable {
     let id: UUID
     let name: String
     let image: URL?

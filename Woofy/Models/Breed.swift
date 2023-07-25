@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Breed: Codable, Identifiable {
+struct Breed: Codable, Identifiable, Hashable {
     let id = UUID()
     let name: String
     let designation: String?
@@ -36,7 +36,7 @@ struct Breed: Codable, Identifiable {
 }
 
 
-struct BreedImage: Codable {
+struct BreedImage: Codable, Hashable {
     let imageUrl: URL?
     
     enum CodingKeys: String, CodingKey {
@@ -44,7 +44,7 @@ struct BreedImage: Codable {
     }
 }
 
-struct Weight: Codable {
+struct Weight: Codable, Hashable {
     let weightInMetric: String
     
     enum CodingKeys: String, CodingKey {
@@ -52,7 +52,7 @@ struct Weight: Codable {
     }
 }
 
-struct Height: Codable {
+struct Height: Codable, Hashable {
     let heightInMetric: String
     
     enum CodingKeys: String, CodingKey {
