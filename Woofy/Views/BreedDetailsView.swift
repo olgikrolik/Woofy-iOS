@@ -10,45 +10,56 @@ import WrappingHStack
 
 struct BreedDetailsView: View {
     
+    @ObservedObject var breedDetailsViewModel = BreedDetailsViewModel()
+    
     let breedTitleHeight: CGFloat = 114
-    let temperamentArray = ["Stubborn", "Curious", "Playful", "Adventurous", "Active", "Fun-loving"]
+//    let temperamentArray = ["Stubborn", "Curious", "Playful", "Adventurous", "Active", "Fun-loving"]
     @State private var isLiked = false
     
     let imageUrl: URL
-    let id: UUID
+    let id: Int
     let breedName: String
     
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                let imageWidth = UIScreen.main.bounds.size.width
-                let imageHeight = imageWidth * 5/6
-                let horizontalPadding: CGFloat = 24
-                
-                ZStack(alignment: .bottom) {
-                    breedImage(imageWidth: imageWidth, imageHeight: imageHeight)
-                    backgroundForBreedIntroduction(horizontalPadding: horizontalPadding)
-                    breedIntroduction(horizontalPadding: horizontalPadding, isLiked: isLiked)
+                if let breedDetails = breedDetailsViewModel.breedDetails {
+                    let imageWidth = UIScreen.main.bounds.size.width
+                    let imageHeight = imageWidth * 5/6
+                    let horizontalPadding: CGFloat = 24
+                    
+                    ZStack(alignment: .bottom) {
+                        breedImage(imageWidth: imageWidth, imageHeight: imageHeight)
+                        backgroundForBreedIntroduction(horizontalPadding: horizontalPadding)
+                        breedIntroduction(horizontalPadding: horizontalPadding, isLiked: isLiked, breed: breedDetails)
+                    }
+                    .frame(width: imageWidth, height: imageHeight + CGFloat((breedTitleHeight * 1/2)), alignment: .top)
+                    
+                    sectionWithImage(horizontalPadding: horizontalPadding, title: "About breed")
+                    
+                    HStack {
+                        breedDetailsTile(title: "Weight", value: breedDetails.weight)
+                        breedDetailsTile(title: "Height", value: breedDetails.height)
+                        breedDetailsTile(title: "Life span", value: breedDetails.lifeSpan)
+                    }
+                    .padding(.horizontal, horizontalPadding + 8)
+                    .padding(.top, 15)
+                    
+                    sectionWithImage(horizontalPadding: horizontalPadding, title: "Temperament")
+                    temperamentalFeatures(temperament: breedDetails.temperament, horizontalPadding: horizontalPadding) //temperament String pomyśleć jak rozbić to w Array
+                    
+                    Spacer()
+                } else {
+                    ProgressView()
                 }
-                .frame(width: imageWidth, height: imageHeight + CGFloat((breedTitleHeight * 1/2)), alignment: .top)
                 
-                sectionWithImage(horizontalPadding: horizontalPadding, title: "About breed")
                 
-                HStack {
-                    breedDetailsTile(title: "Weight", value: "3-6 kg")
-                    breedDetailsTile(title: "Height", value: "23-29 cm")
-                    breedDetailsTile(title: "Life span", value: "10-12 yrs")
-                }
-                .padding(.horizontal, horizontalPadding + 8)
-                .padding(.top, 15)
-                
-                sectionWithImage(horizontalPadding: horizontalPadding, title: "Temperament")
-                temperamentalFeatures(temperamentArray: temperamentArray, horizontalPadding: horizontalPadding)
-                
-                Spacer()
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            breedDetailsViewModel.displayData(breedId: id)
+        }
     }
     
     func breedImage(imageWidth: CGFloat, imageHeight: CGFloat) -> some View {
@@ -78,15 +89,15 @@ struct BreedDetailsView: View {
             .offset(y: CGFloat(breedTitleHeight * 1/2))
     }
     
-    func breedIntroduction(horizontalPadding: CGFloat, isLiked: Bool) -> some View {
+    func breedIntroduction(horizontalPadding: CGFloat, isLiked: Bool, breed: BreedDetails) -> some View {
         HStack {
             VStack(alignment: .leading) {
                 Text(breedName)
                     .font(.custom("Trocchi-Regular", size: 20))
-                Text(mergeDefinitionAndDescription(definition: "Group:  ", description: "Toy"))
+                Text(mergeDefinitionAndDescription(definition: "Group:  ", description: breed.group))
                     .font(.custom("Trocchi-Regular", size: 15))
                     .opacity(0.7)
-                Text(mergeDefinitionAndDescription(definition: "Special skill: ", description: "Small rodent hunting, lapdog"))
+                Text(mergeDefinitionAndDescription(definition: "Special skill: ", description: breed.designation))
                     .font(.custom("Trocchi-Regular", size: 15))
                     .opacity(0.7)
             }
@@ -108,8 +119,8 @@ struct BreedDetailsView: View {
     }
     
     func mergeDefinitionAndDescription(definition: String, description: String) -> AttributedString {
-        var definitionAttributedString = AttributedString(definition)
-        var descriptionAttributedString = AttributedString(description)
+        let definitionAttributedString = AttributedString(definition)
+        let descriptionAttributedString = AttributedString(description)
         
         return definitionAttributedString + descriptionAttributedString
     }
@@ -144,8 +155,14 @@ struct BreedDetailsView: View {
         }
     }
     
-    func temperamentalFeatures(temperamentArray: [String], horizontalPadding: CGFloat) -> some View {
-        WrappingHStack(temperamentArray, id:\.self, alignment: .center) { temperament in
+    func createTemperamentArray(temperamentString: String) -> [String] {
+        let temperamentArray = temperamentString.components(separatedBy: ", ")
+        return temperamentArray
+    }
+    
+    func temperamentalFeatures(temperament: String, horizontalPadding: CGFloat) -> some View {
+        let temperamentFeaturesArray = createTemperamentArray(temperamentString: temperament)
+        return WrappingHStack(temperamentFeaturesArray, id:\.self, alignment: .center) { temperament in
             Text(temperament)
                 .font(.custom("Trocchi-Regular", size: 15))
                 .padding(.all, 8)

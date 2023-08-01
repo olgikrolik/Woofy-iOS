@@ -53,7 +53,7 @@ struct BreedsListView: View {
         .onChange(of: searchText) { value in
             breedsListViewModel.didChangeSearchQuery(searchBreedTerm: value)
         }
-        .onAppear{
+        .onAppear {
             breedsListViewModel.loadFirstPage()
         }
         .alert(isPresented: $breedsListViewModel.showGeneralError) {

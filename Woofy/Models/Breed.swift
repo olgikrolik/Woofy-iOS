@@ -8,7 +8,7 @@
 import Foundation
 
 struct Breed: Codable, Identifiable, Hashable {
-    let id = UUID()
+    let id: Int
     let name: String
     let designation: String?
     let group: String?
@@ -21,6 +21,7 @@ struct Breed: Codable, Identifiable, Hashable {
     let referenceImageId: String?
     
     enum CodingKeys: String, CodingKey {
+        case id = "id"
         case name = "name"
         case designation = "bred_for"
         case group = "breed_group"
