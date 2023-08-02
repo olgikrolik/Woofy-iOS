@@ -11,9 +11,7 @@ import WrappingHStack
 struct BreedDetailsView: View {
     
     @ObservedObject var breedDetailsViewModel = BreedDetailsViewModel()
-    
     let breedTitleHeight: CGFloat = 114
-//    let temperamentArray = ["Stubborn", "Curious", "Playful", "Adventurous", "Active", "Fun-loving"]
     @State private var isLiked = false
     
     let imageUrl: URL
@@ -155,14 +153,8 @@ struct BreedDetailsView: View {
         }
     }
     
-    func createTemperamentArray(temperamentString: String) -> [String] {
-        let temperamentArray = temperamentString.components(separatedBy: ", ")
-        return temperamentArray
-    }
-    
-    func temperamentalFeatures(temperament: String, horizontalPadding: CGFloat) -> some View {
-        let temperamentFeaturesArray = createTemperamentArray(temperamentString: temperament)
-        return WrappingHStack(temperamentFeaturesArray, id:\.self, alignment: .center) { temperament in
+    func temperamentalFeatures(temperament: [String], horizontalPadding: CGFloat) -> some View {
+        return WrappingHStack(temperament, id:\.self, alignment: .center) { temperament in
             Text(temperament)
                 .font(.custom("Trocchi-Regular", size: 15))
                 .padding(.all, 8)
