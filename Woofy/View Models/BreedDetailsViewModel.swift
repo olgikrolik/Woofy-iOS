@@ -37,8 +37,8 @@ class BreedDetailsViewModel: ObservableObject {
                 let group = breed.group ?? "Unknown"
                 let lifeSpan = breed.lifeSpan
                 let temperament = createTemperamentArray(temperamentString: breed.temperament ?? "Unknown")
-                let weight = breed.weight.weightInMetric
-                let height = breed.height.heightInMetric
+                let weight = "\(breed.weight.weightInMetric) kg"
+                let height = "\(breed.height.heightInMetric) cm"
                 breedDetails = BreedDetails(designation: designation, group: group, lifeSpan: lifeSpan, temperament: temperament, weight: weight, height: height)
             } catch BreedsAPIService.APIError.internetConnectionError {
                 self.showInternetConnectionError = true
