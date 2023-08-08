@@ -12,7 +12,6 @@ struct BreedDetailsView: View {
     
     @ObservedObject var breedDetailsViewModel: BreedDetailsViewModel
     let breedTitleHeight: CGFloat = 114
-    @State private var isLiked = false
     
     var body: some View {
         ScrollView {
@@ -25,7 +24,7 @@ struct BreedDetailsView: View {
                     ZStack(alignment: .bottom) {
                         breedImage(imageWidth: imageWidth, imageHeight: imageHeight)
                         backgroundForBreedIntroduction(horizontalPadding: horizontalPadding)
-                        breedIntroduction(horizontalPadding: horizontalPadding, isLiked: isLiked, breed: breedDetails)
+                        breedIntroduction(horizontalPadding: horizontalPadding, breed: breedDetails)
                     }
                     .frame(width: imageWidth, height: imageHeight + CGFloat((breedTitleHeight * 1/2)), alignment: .top)
                     
@@ -83,7 +82,7 @@ struct BreedDetailsView: View {
             .offset(y: CGFloat(breedTitleHeight * 1/2))
     }
     
-    func breedIntroduction(horizontalPadding: CGFloat, isLiked: Bool, breed: BreedDetails) -> some View {
+    func breedIntroduction(horizontalPadding: CGFloat, breed: BreedDetails) -> some View {
         HStack {
             VStack(alignment: .leading) {
                 Text(breedDetailsViewModel.breedName)
@@ -96,14 +95,13 @@ struct BreedDetailsView: View {
                     .opacity(0.7)
             }
             Button(action: {
-                self.isLiked.toggle()
-                
+                breedDetailsViewModel.onHeartTapped()
             }, label: {
-                Image(systemName: breedDetailsViewModel.onHeartTapped(isLiked: isLiked))
+                Image(systemName: breedDetailsViewModel.heartIconSystemName)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 30)
-                    .foregroundColor(isLiked  ? Color("DetailsColor") : .gray)
+                    .foregroundColor(breedDetailsViewModel.heartColor)
             })
             .padding(.horizontal, horizontalPadding)
         }

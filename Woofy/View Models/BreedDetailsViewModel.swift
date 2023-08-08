@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct BreedDetails {
     let designation: String
@@ -22,10 +23,11 @@ class BreedDetailsViewModel: ObservableObject {
     @Published var breedDetails: BreedDetails?
     @Published var showInternetConnectionError = false
     @Published var showGeneralError = false
-    private let service = BreedsAPIService()
-    private let imageUrl: URL
+    @Published var isLiked = false
+    let imageUrl: URL
+    let breedName: String
     private let id: Int
-    private let breedName: String
+    private let service = BreedsAPIService()
     
     init(imageUrl: URL, id: Int, breedName: String) {
         self.imageUrl = imageUrl
@@ -57,11 +59,25 @@ class BreedDetailsViewModel: ObservableObject {
         }
     }
     
-    func onHeartTapped(isLiked: Bool) -> String {
+    var heartIconSystemName: String {
         if isLiked == true {
             return "heart.fill"
         } else {
             return "heart"
         }
     }
+    
+    var heartColor: Color {
+        if isLiked == true {
+            return Color("DetailsColor")
+        } else {
+            return .gray
+        }
+    }
+    
+    func onHeartTapped() {
+        isLiked.toggle()
+    }
+    
+    
 }
