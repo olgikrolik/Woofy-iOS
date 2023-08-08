@@ -10,13 +10,9 @@ import WrappingHStack
 
 struct BreedDetailsView: View {
     
-    @ObservedObject var breedDetailsViewModel = BreedDetailsViewModel()
+    @ObservedObject var breedDetailsViewModel: BreedDetailsViewModel
     let breedTitleHeight: CGFloat = 114
     @State private var isLiked = false
-    
-    let imageUrl: URL
-    let id: Int
-    let breedName: String
     
     var body: some View {
         ScrollView {
@@ -56,12 +52,12 @@ struct BreedDetailsView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            breedDetailsViewModel.displayData(breedId: id)
+            breedDetailsViewModel.displayData()
         }
     }
     
     func breedImage(imageWidth: CGFloat, imageHeight: CGFloat) -> some View {
-        AsyncImage(url: imageUrl) { image in
+        AsyncImage(url: breedDetailsViewModel.imageUrl) { image in
             image
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -90,7 +86,7 @@ struct BreedDetailsView: View {
     func breedIntroduction(horizontalPadding: CGFloat, isLiked: Bool, breed: BreedDetails) -> some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(breedName)
+                Text(breedDetailsViewModel.breedName)
                     .font(.custom("Trocchi-Regular", size: 20))
                 Text(mergeDefinitionAndDescription(definition: "Group:  ", description: breed.group))
                     .font(.custom("Trocchi-Regular", size: 15))
@@ -103,7 +99,7 @@ struct BreedDetailsView: View {
                 self.isLiked.toggle()
                 
             }, label: {
-                Image(systemName: isLiked ? "heart.fill" : "heart")
+                Image(systemName: breedDetailsViewModel.onHeartTapped(isLiked: isLiked))
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 30)

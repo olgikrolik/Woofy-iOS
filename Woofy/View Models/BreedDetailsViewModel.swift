@@ -23,16 +23,25 @@ class BreedDetailsViewModel: ObservableObject {
     @Published var showInternetConnectionError = false
     @Published var showGeneralError = false
     private let service = BreedsAPIService()
+    private let imageUrl: URL
+    private let id: Int
+    private let breedName: String
+    
+    init(imageUrl: URL, id: Int, breedName: String) {
+        self.imageUrl = imageUrl
+        self.id = id
+        self.breedName = breedName
+    }
     
     func createTemperamentArray(temperamentString: String) -> [String] {
         let temperamentArray = temperamentString.components(separatedBy: ", ")
         return temperamentArray
     }
     
-    func displayData(breedId: Int) {
+    func displayData() {
         Task {
             do {
-                let breed = try await service.getBreedById(id: breedId)
+                let breed = try await service.getBreedById(id: id)
                 let designation = breed.designation ?? "Unknown"
                 let group = breed.group ?? "Unknown"
                 let lifeSpan = breed.lifeSpan
@@ -45,6 +54,14 @@ class BreedDetailsViewModel: ObservableObject {
             } catch {
                 self.showGeneralError = true
             }
+        }
+    }
+    
+    func onHeartTapped(isLiked: Bool) -> String {
+        if isLiked == true {
+            return "heart.fill"
+        } else {
+            return "heart"
         }
     }
 }
