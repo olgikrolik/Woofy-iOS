@@ -51,7 +51,7 @@ struct BreedDetailsView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            breedDetailsViewModel.displayData()
+            breedDetailsViewModel.onViewAppear()
         }
     }
     

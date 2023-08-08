@@ -17,6 +17,10 @@ struct BreedDetails {
     let height: String
 }
 
+struct FavouritesBreeds {
+    let breedId: Int
+}
+
 @MainActor
 class BreedDetailsViewModel: ObservableObject {
     
@@ -40,7 +44,22 @@ class BreedDetailsViewModel: ObservableObject {
         return temperamentArray
     }
     
-    func displayData() {
+    func onViewAppear() {
+        checkIfBreedIsLiked()
+        loadBreedDetailsFromAPI()
+    }
+    
+    func checkIfBreedIsLiked() {
+        var existingArray = userDefaults.array(forKey: favouritesKey) as? [Int] ?? []
+        
+        if existingArray.contains(id) {
+            isLiked = true
+        } else {
+            isLiked = false
+        }
+    }
+    
+    func loadBreedDetailsFromAPI() {
         Task {
             do {
                 let breed = try await service.getBreedById(id: id)
@@ -60,7 +79,7 @@ class BreedDetailsViewModel: ObservableObject {
     }
     
     var heartIconSystemName: String {
-        if isLiked == true {
+        if isLiked {
             return "heart.fill"
         } else {
             return "heart"
@@ -68,7 +87,7 @@ class BreedDetailsViewModel: ObservableObject {
     }
     
     var heartColor: Color {
-        if isLiked == true {
+        if isLiked {
             return Color("DetailsColor")
         } else {
             return .gray
@@ -77,7 +96,18 @@ class BreedDetailsViewModel: ObservableObject {
     
     func onHeartTapped() {
         isLiked.toggle()
+        if isLiked {
+            addBreedToFavourites()
+        }
     }
     
+    private var favouritesKey = "FavouritesKey"
+    private var userDefaults = UserDefaults.standard
     
+    func addBreedToFavourites() {
+        var existingArray = userDefaults.array(forKey: favouritesKey) as? [Int] ?? []
+        existingArray.append(id)
+        userDefaults.set(existingArray, forKey: favouritesKey)
+        print(existingArray)
+    }
 }
