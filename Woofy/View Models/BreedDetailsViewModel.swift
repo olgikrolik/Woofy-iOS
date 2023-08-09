@@ -101,14 +101,42 @@ class BreedDetailsViewModel: ObservableObject {
     
     var favouritesKey = "FavouritesKey"
     private var userDefaults = UserDefaults.standard
+//    let favouriteBreed = FavouriteBreed(breedId: id, imageUrl: imageUrl, breedName: breedName)
     
     func addBreedToFavourites() {
-        var existingArray = userDefaults.array(forKey: favouritesKey) as? [Int] ?? []
-        existingArray.append(id)
-        userDefaults.set(existingArray, forKey: favouritesKey)
-        print(existingArray)
+        let favouriteBreed = FavouriteBreed(id: id, imageUrl: imageUrl, breedName: breedName)
+//        var favouritesBreedsData = userDefaults.data(forKey: favouritesKey)
+        do {
+            let decoder = JSONDecoder()
+            if let favouritesBreedsData = userDefaults.data(forKey: favouritesKey) {
+                var decodedFavouritesBreeds = try decoder.decode([FavouriteBreed].self, from: favouritesBreedsData)
+                decodedFavouritesBreeds.append(favouriteBreed)
+                do {
+                    let encoder = JSONEncoder()
+                    let encodedFavouritesBreedsData = try encoder.encode(decodedFavouritesBreeds)
+                    userDefaults.set(encodedFavouritesBreedsData, forKey: favouritesKey)
+                    print(decodedFavouritesBreeds)
+                } catch {
+                    print(error)
+                }
+            } else {
+                let favouritesBreeds: [FavouriteBreed] = [favouriteBreed]
+                do {
+                    let encoder = JSONEncoder()
+                    let encodedFavouritesBreedsData = try encoder.encode(favouritesBreeds)
+                    userDefaults.set(encodedFavouritesBreedsData, forKey: favouritesKey)
+                    print(encodedFavouritesBreedsData)
+                } catch {
+                    print(error)
+                }
+            }
+        } catch {
+            print(error)
+        }
     }
     
+    
+
     func removeBreedFromFavourites() {
         var existingArray = userDefaults.array(forKey: favouritesKey) as? [Int] ?? []
         existingArray.removeAll { element in
@@ -118,12 +146,17 @@ class BreedDetailsViewModel: ObservableObject {
         print(existingArray)
     }
     
-//    func encodeFavouriteBreed() -> Data {
-//        let encoder = JSONEncoder()
-//        try? encoder.encode(FavouriteBreed)
-//           UserDefaults.standard.set(encodeFavouriteBreed, forKey: "FavouritesKey")
+//    func encodeFavouriteBreed() -> Data? {
+//        do {
+//            let encoder = JSONEncoder()
+//            return try encoder.encode(favouriteBreed)
+//        } catch {
+//            print(error)
+//            return nil
+//        }
 //    }
-//
+
+    //           UserDefaults.standard.set(encodeFavouriteBreed, forKey: "FavouritesKey")
 }
 
 

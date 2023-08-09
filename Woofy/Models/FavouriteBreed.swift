@@ -8,7 +8,7 @@
 import Foundation
 
 struct FavouriteBreed: Codable {
-    let breedId: Int
+    let id: Int
     let imageUrl: URL
     let breedName: String
 }
