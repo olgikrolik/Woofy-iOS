@@ -17,10 +17,6 @@ struct BreedDetails {
     let height: String
 }
 
-struct FavouritesBreeds {
-    let breedId: Int
-}
-
 @MainActor
 class BreedDetailsViewModel: ObservableObject {
     
@@ -98,10 +94,12 @@ class BreedDetailsViewModel: ObservableObject {
         isLiked.toggle()
         if isLiked {
             addBreedToFavourites()
+        } else {
+            removeBreedFromFavourites()
         }
     }
     
-    private var favouritesKey = "FavouritesKey"
+    var favouritesKey = "FavouritesKey"
     private var userDefaults = UserDefaults.standard
     
     func addBreedToFavourites() {
@@ -110,4 +108,33 @@ class BreedDetailsViewModel: ObservableObject {
         userDefaults.set(existingArray, forKey: favouritesKey)
         print(existingArray)
     }
+    
+    func removeBreedFromFavourites() {
+        var existingArray = userDefaults.array(forKey: favouritesKey) as? [Int] ?? []
+        existingArray.removeAll { element in
+            element == id
+        }
+        userDefaults.set(existingArray, forKey: favouritesKey)
+        print(existingArray)
+    }
+    
+//    func encodeFavouriteBreed() -> Data {
+//        let encoder = JSONEncoder()
+//        try? encoder.encode(FavouriteBreed)
+//           UserDefaults.standard.set(encodeFavouriteBreed, forKey: "FavouritesKey")
+//    }
+//
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
