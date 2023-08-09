@@ -46,12 +46,20 @@ class BreedDetailsViewModel: ObservableObject {
     }
     
     func checkIfBreedIsLiked() {
-        var existingArray = userDefaults.array(forKey: favouritesKey) as? [Int] ?? []
-        
-        if existingArray.contains(id) {
-            isLiked = true
-        } else {
-            isLiked = false
+        //        var existingArray = userDefaults.array(forKey: favouritesKey) as? [Int] ?? []
+        let favouriteBreed = FavouriteBreed(id: id, imageUrl: imageUrl, breedName: breedName)
+        do {
+            let decoder = JSONDecoder()
+            if let favouritesBreedsData = userDefaults.data(forKey: favouritesKey) {
+                var decodedFavouritesBreeds = try decoder.decode([FavouriteBreed].self, from: favouritesBreedsData)
+                if decodedFavouritesBreeds.contains(favouriteBreed) {
+                    isLiked = true
+                } else {
+                    isLiked = false
+                }
+            }
+        } catch {
+            print(error)
         }
     }
     
@@ -99,13 +107,11 @@ class BreedDetailsViewModel: ObservableObject {
         }
     }
     
-    var favouritesKey = "FavouritesKey"
+    private var favouritesKey = "FavouritesKey"
     private var userDefaults = UserDefaults.standard
-//    let favouriteBreed = FavouriteBreed(breedId: id, imageUrl: imageUrl, breedName: breedName)
     
     func addBreedToFavourites() {
         let favouriteBreed = FavouriteBreed(id: id, imageUrl: imageUrl, breedName: breedName)
-//        var favouritesBreedsData = userDefaults.data(forKey: favouritesKey)
         do {
             let decoder = JSONDecoder()
             if let favouritesBreedsData = userDefaults.data(forKey: favouritesKey) {
@@ -138,25 +144,28 @@ class BreedDetailsViewModel: ObservableObject {
     
 
     func removeBreedFromFavourites() {
-        var existingArray = userDefaults.array(forKey: favouritesKey) as? [Int] ?? []
-        existingArray.removeAll { element in
-            element == id
+        let favouriteBreed = FavouriteBreed(id: id, imageUrl: imageUrl, breedName: breedName)
+        do {
+            let decoder = JSONDecoder()
+            if let favouritesBreedsData = userDefaults.data(forKey: favouritesKey) {
+                var decodedFavouritesBreeds = try decoder.decode([FavouriteBreed].self, from: favouritesBreedsData)
+                decodedFavouritesBreeds.removeAll { element in
+                    element == favouriteBreed
+                }
+                do {
+                    let encoder = JSONEncoder()
+                    let encodedFavouritesBreedsData = try encoder.encode(decodedFavouritesBreeds)
+                    userDefaults.set(encodedFavouritesBreedsData, forKey: favouritesKey)
+                    print(decodedFavouritesBreeds)
+                } catch {
+                    print(error)
+                }
+            }
+        } catch {
+            print(error)
         }
-        userDefaults.set(existingArray, forKey: favouritesKey)
-        print(existingArray)
     }
-    
-//    func encodeFavouriteBreed() -> Data? {
-//        do {
-//            let encoder = JSONEncoder()
-//            return try encoder.encode(favouriteBreed)
-//        } catch {
-//            print(error)
-//            return nil
-//        }
-//    }
 
-    //           UserDefaults.standard.set(encodeFavouriteBreed, forKey: "FavouritesKey")
 }
 
 
