@@ -27,6 +27,8 @@ struct FavouriteBreedsView: View {
                                 breedImageWithName(breed: breed, reader: reader)
                             }
                         }
+                        .padding(.leading, 18)
+                        .padding(.trailing, 18)
                     }
                 }
                 .navigationBarTitle("Favourites", displayMode: .large)
