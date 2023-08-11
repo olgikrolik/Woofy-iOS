@@ -12,7 +12,7 @@ class FavouritesStore {
     private var favouritesKey = "FavouritesKey"
     private var userDefaults = UserDefaults.standard
     
-    private func getFavouritesBreeds() -> [FavouriteBreed]?  {
+    func getFavouriteBreeds() -> [FavouriteBreed]?  {
         do {
             let decoder = JSONDecoder()
             if let favouritesBreedsData = userDefaults.data(forKey: favouritesKey) {
@@ -26,7 +26,7 @@ class FavouritesStore {
         }
     }
     
-    private func saveFavouritesBreeds(favouritesBreedsArray: [FavouriteBreed]) {
+    private func saveFavouriteBreeds(favouritesBreedsArray: [FavouriteBreed]) {
         do {
             let encoder = JSONEncoder()
             let encodedFavouritesBreedsData = try encoder.encode(favouritesBreedsArray)
@@ -37,24 +37,24 @@ class FavouritesStore {
     }
     
     func addBreedToFavourites(favouriteBreed: FavouriteBreed) {
-        if var decodedFavouritesBreeds = getFavouritesBreeds() {
+        if var decodedFavouritesBreeds = getFavouriteBreeds() {
             decodedFavouritesBreeds.append(favouriteBreed)
-            saveFavouritesBreeds(favouritesBreedsArray: decodedFavouritesBreeds)
+            saveFavouriteBreeds(favouritesBreedsArray: decodedFavouritesBreeds)
         } else {
             let favouritesBreeds: [FavouriteBreed] = [favouriteBreed]
-            saveFavouritesBreeds(favouritesBreedsArray: favouritesBreeds)
+            saveFavouriteBreeds(favouritesBreedsArray: favouritesBreeds)
         }
     }
     
     func removeBreedFromFavourites(favouriteBreed: FavouriteBreed) {
-        if var decodedFavouritesBreeds = getFavouritesBreeds() {
+        if var decodedFavouritesBreeds = getFavouriteBreeds() {
             decodedFavouritesBreeds.removeAll { $0 == favouriteBreed }
-            saveFavouritesBreeds(favouritesBreedsArray: decodedFavouritesBreeds)
+            saveFavouriteBreeds(favouritesBreedsArray: decodedFavouritesBreeds)
         }
     }
     
     func checkIfBreedIsLiked(breedId: Int) -> Bool {
-        if let decodedFavouritesBreeds = getFavouritesBreeds() {
+        if let decodedFavouritesBreeds = getFavouriteBreeds() {
             if decodedFavouritesBreeds.map({ $0.id }).contains(breedId) {
                 return true
             } else {
