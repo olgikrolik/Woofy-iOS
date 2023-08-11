@@ -42,25 +42,8 @@ class BreedDetailsViewModel: ObservableObject {
     }
     
     func onViewAppear() {
-        checkIfBreedIsLiked()
+        isLiked = favouritesStore.checkIfBreedIsLiked(breedId: id)
         loadBreedDetailsFromAPI()
-    }
-    
-    func checkIfBreedIsLiked() {
-        let favouriteBreed = FavouriteBreed(id: id, imageUrl: imageUrl, breedName: breedName)
-        do {
-            let decoder = JSONDecoder()
-            if let favouritesBreedsData = userDefaults.data(forKey: favouritesKey) {
-                var decodedFavouritesBreeds = try decoder.decode([FavouriteBreed].self, from: favouritesBreedsData)
-                if decodedFavouritesBreeds.contains(favouriteBreed) {
-                    isLiked = true
-                } else {
-                    isLiked = false
-                }
-            }
-        } catch {
-            print(error)
-        }
     }
     
     func loadBreedDetailsFromAPI() {
@@ -107,65 +90,6 @@ class BreedDetailsViewModel: ObservableObject {
             favouritesStore.removeBreedFromFavourites(favouriteBreed: favouriteBreed)
         }
     }
-    
-//    private var favouritesKey = "FavouritesKey"
-//    private var userDefaults = UserDefaults.standard
-//    
-//    func addBreedToFavourites() {
-//        let favouriteBreed = FavouriteBreed(id: id, imageUrl: imageUrl, breedName: breedName)
-//        do {
-//            let decoder = JSONDecoder()
-//            if let favouritesBreedsData = userDefaults.data(forKey: favouritesKey) {
-//                var decodedFavouritesBreeds = try decoder.decode([FavouriteBreed].self, from: favouritesBreedsData)
-//                decodedFavouritesBreeds.append(favouriteBreed)
-//                do {
-//                    let encoder = JSONEncoder()
-//                    let encodedFavouritesBreedsData = try encoder.encode(decodedFavouritesBreeds)
-//                    userDefaults.set(encodedFavouritesBreedsData, forKey: favouritesKey)
-//                    print(decodedFavouritesBreeds)
-//                } catch {
-//                    print(error)
-//                }
-//            } else {
-//                let favouritesBreeds: [FavouriteBreed] = [favouriteBreed]
-//                do {
-//                    let encoder = JSONEncoder()
-//                    let encodedFavouritesBreedsData = try encoder.encode(favouritesBreeds)
-//                    userDefaults.set(encodedFavouritesBreedsData, forKey: favouritesKey)
-//                    print(encodedFavouritesBreedsData)
-//                } catch {
-//                    print(error)
-//                }
-//            }
-//        } catch {
-//            print(error)
-//        }
-//    }
-//    
-//    
-//
-//    func removeBreedFromFavourites() {
-//        let favouriteBreed = FavouriteBreed(id: id, imageUrl: imageUrl, breedName: breedName)
-//        do {
-//            let decoder = JSONDecoder()
-//            if let favouritesBreedsData = userDefaults.data(forKey: favouritesKey) {
-//                var decodedFavouritesBreeds = try decoder.decode([FavouriteBreed].self, from: favouritesBreedsData)
-//                decodedFavouritesBreeds.removeAll { element in
-//                    element == favouriteBreed
-//                }
-//                do {
-//                    let encoder = JSONEncoder()
-//                    let encodedFavouritesBreedsData = try encoder.encode(decodedFavouritesBreeds)
-//                    userDefaults.set(encodedFavouritesBreedsData, forKey: favouritesKey)
-//                    print(decodedFavouritesBreeds)
-//                } catch {
-//                    print(error)
-//                }
-//            }
-//        } catch {
-//            print(error)
-//        }
-//    }
 
 }
 

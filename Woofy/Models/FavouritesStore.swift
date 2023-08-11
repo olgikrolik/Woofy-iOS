@@ -12,11 +12,11 @@ class FavouritesStore {
     private var favouritesKey = "FavouritesKey"
     private var userDefaults = UserDefaults.standard
     
-    func getFavouritesBreeds() -> [FavouriteBreed]?  {
+    private func getFavouritesBreeds() -> [FavouriteBreed]?  {
         do {
             let decoder = JSONDecoder()
             if let favouritesBreedsData = userDefaults.data(forKey: favouritesKey) {
-                var decodedFavouritesBreeds = try decoder.decode([FavouriteBreed].self, from: favouritesBreedsData)
+                let decodedFavouritesBreeds = try decoder.decode([FavouriteBreed].self, from: favouritesBreedsData)
                 return decodedFavouritesBreeds
             }
             return nil
@@ -26,7 +26,7 @@ class FavouritesStore {
         }
     }
     
-    func saveFavouritesBreeds(favouritesBreedsArray: [FavouriteBreed]) {
+    private func saveFavouritesBreeds(favouritesBreedsArray: [FavouriteBreed]) {
         do {
             let encoder = JSONEncoder()
             let encodedFavouritesBreedsData = try encoder.encode(favouritesBreedsArray)
@@ -48,11 +48,20 @@ class FavouritesStore {
     
     func removeBreedFromFavourites(favouriteBreed: FavouriteBreed) {
         if var decodedFavouritesBreeds = getFavouritesBreeds() {
-            decodedFavouritesBreeds.removeAll { element in
-                element == favouriteBreed
-            }
+            decodedFavouritesBreeds.removeAll { $0 == favouriteBreed }
             saveFavouritesBreeds(favouritesBreedsArray: decodedFavouritesBreeds)
         }
+    }
+    
+    func checkIfBreedIsLiked(breedId: Int) -> Bool {
+        if let decodedFavouritesBreeds = getFavouritesBreeds() {
+            if decodedFavouritesBreeds.map({ $0.id }).contains(breedId) {
+                return true
+            } else {
+                return false
+            }
+        }
+        return false
     }
 }
 
