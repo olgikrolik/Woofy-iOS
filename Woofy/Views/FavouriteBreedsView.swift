@@ -24,7 +24,9 @@ struct FavouriteBreedsView: View {
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 2) {
                             ForEach(favouriteBreedsViewModel.favouriteBreeds, id: \.id) { breed in
-                                breedImageWithName(breed: breed, reader: reader)
+                                NavigationLink(value: breed) {
+                                    breedImageWithName(breed: breed, reader: reader)
+                                }
                             }
                         }
                         .padding(.leading, 18)
@@ -33,10 +35,15 @@ struct FavouriteBreedsView: View {
                 }
                 .navigationBarTitle("Favourites", displayMode: .large)
             }
+            .navigationDestination(for: FavouriteBreed.self) { breed in
+                let viewModel = BreedDetailsViewModel(imageUrl: breed.imageUrl, id: breed.id, breedName: breed.breedName)
+                BreedDetailsView(breedDetailsViewModel: viewModel)
+            }
+            .onAppear {
+                favouriteBreedsViewModel.loadFavouriteBreeds()
+            }
         }
-        .onAppear {
-            favouriteBreedsViewModel.loadFavouriteBreeds()
-        }
+        .accentColor(.black)
     }
     
     var backgroundColor: some View {

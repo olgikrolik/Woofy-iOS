@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FavouriteBreed: Codable, Equatable {
+struct FavouriteBreed: Codable, Equatable, Hashable {
     let id: Int
     let imageUrl: URL
     let breedName: String
