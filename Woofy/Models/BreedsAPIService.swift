@@ -11,11 +11,6 @@ class BreedsAPIService {
     
     private let baseUrl = "https://api.thedogapi.com"
     
-    func createImageUrlForReferenceId(referenceImageId: String) -> URL {
-        let endpoint = URL(string: "https://cdn2.thedogapi.com/images/\(referenceImageId).jpg")!
-        return endpoint
-    }
-    
     func addPlusBetweenWords(searchBreedTerm: String) -> String {
         let breedWithPlusBetweenWords = searchBreedTerm.replacingOccurrences(of: " ", with: "+")
         

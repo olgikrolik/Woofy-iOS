@@ -66,7 +66,7 @@ class BreedsListViewModel: ObservableObject {
                 for breed in breeds {
                     let id = breed.id
                     let name = breed.name
-                    let image = breed.image?.imageUrl
+                    let image = breed.imageUrl
                     breedsInfo.append(BreedInfo(id: id, name: name, image: image))
                 }
                 self.breedsInfo.append(contentsOf: breedsInfo)
@@ -85,10 +85,7 @@ class BreedsListViewModel: ObservableObject {
             for breed in breeds {
                 let id = breed.id
                 let name = breed.name
-                var imageUrl: URL?
-                if let referenceImageId = breed.referenceImageId {
-                    imageUrl = service.createImageUrlForReferenceId(referenceImageId: referenceImageId)
-                }
+                let imageUrl = breed.imageUrl
                 breedsInfo.append(BreedInfo(id: id, name: name, image: imageUrl))
             }
             self.breedsInfo = breedsInfo

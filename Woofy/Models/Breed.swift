@@ -15,9 +15,14 @@ struct Breed: Codable, Identifiable, Hashable {
     let lifeSpan: String
     let temperament: String?
     let origin: String?
-    let image: BreedImage?
     let weight: Weight
     let height: Height
+    var imageUrl: URL? {
+        guard let unwrappedReferenceId = referenceImageId else {
+            return nil
+        }
+        return URL(string: "https://cdn2.thedogapi.com/images/\(unwrappedReferenceId).jpg")
+    }
     let referenceImageId: String?
     
     enum CodingKeys: String, CodingKey {
@@ -28,21 +33,11 @@ struct Breed: Codable, Identifiable, Hashable {
         case lifeSpan = "life_span"
         case temperament = "temperament"
         case origin = "origin"
-        case image = "image"
         case weight = "weight"
         case height = "height"
         case referenceImageId = "reference_image_id"
     }
 
-}
-
-
-struct BreedImage: Codable, Hashable {
-    let imageUrl: URL?
-    
-    enum CodingKeys: String, CodingKey {
-        case imageUrl = "url"
-    }
 }
 
 struct Weight: Codable, Hashable {
