@@ -46,9 +46,9 @@ class FavouritesStore {
         }
     }
     
-    func removeBreedFromFavourites(favouriteBreed: FavouriteBreed) {
+    func removeBreedFromFavourites(breedId: Int) {
         if var decodedFavouritesBreeds = getFavouriteBreeds() {
-            decodedFavouritesBreeds.removeAll { $0 == favouriteBreed }
+            decodedFavouritesBreeds.removeAll { $0.id == breedId }
             saveFavouriteBreeds(favouritesBreedsArray: decodedFavouritesBreeds)
         }
     }

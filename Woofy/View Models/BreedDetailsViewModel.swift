@@ -30,7 +30,7 @@ class BreedDetailsViewModel: ObservableObject {
     private let service = BreedsAPIService()
     private let favouritesStore = FavouritesStore()
     
-    init(imageUrl: URL, id: Int, breedName: String) {
+    init(imageUrl: URL, id: Int, breedName: String) { //inicjalizator, nieutworzony jeszcze obiekt
         self.imageUrl = imageUrl
         self.id = id
         self.breedName = breedName
@@ -87,7 +87,7 @@ class BreedDetailsViewModel: ObservableObject {
         if isLiked {
             favouritesStore.addBreedToFavourites(favouriteBreed: favouriteBreed)
         } else {
-            favouritesStore.removeBreedFromFavourites(favouriteBreed: favouriteBreed)
+            favouritesStore.removeBreedFromFavourites(breedId: id)
         }
     }
 

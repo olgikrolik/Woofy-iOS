@@ -41,8 +41,8 @@ struct BreedsListView: View {
             }
             .navigationDestination(for: BreedInfo.self) { breed in
                 if let imageUrl = breed.image {
-                    let viewModel = BreedDetailsViewModel(imageUrl: imageUrl, id: breed.id, breedName: breed.name)
-                    BreedDetailsView(breedDetailsViewModel: viewModel)
+                    let viewModel = BreedDetailsViewModel.init(imageUrl: imageUrl, id: breed.id, breedName: breed.name)
+                    BreedDetailsView.init(breedDetailsViewModel: viewModel)
                 }
             }
             .alert(isPresented: $breedsListViewModel.showInternetConnectionError) {

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class FavouriteBreedsViewModel: ObservableObject {
     
@@ -15,4 +16,12 @@ class FavouriteBreedsViewModel: ObservableObject {
     func loadFavouriteBreeds() {
         favouriteBreeds = favouritesStore.getFavouriteBreeds() ?? []
     }
+    
+    func onHeartTapped(id: Int) {
+        favouritesStore.removeBreedFromFavourites(breedId: id)
+        withAnimation {
+            favouriteBreeds = favouritesStore.getFavouriteBreeds() ?? []
+        }
+    }
+    
 }

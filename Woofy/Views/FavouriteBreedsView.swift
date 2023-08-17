@@ -20,20 +20,24 @@ struct FavouriteBreedsView: View {
         NavigationStack {
             ZStack {
                 backgroundColor
-                GeometryReader { reader in
-                    ScrollView {
-                        LazyVGrid(columns: columns, spacing: 2) {
-                            ForEach(favouriteBreedsViewModel.favouriteBreeds, id: \.id) { breed in
-                                NavigationLink(value: breed) {
-                                    breedImageWithName(breed: breed, reader: reader)
+                if favouriteBreedsViewModel.favouriteBreeds.isEmpty {
+                    textForEmptyFavourites
+                } else {
+                    GeometryReader { reader in
+                        ScrollView {
+                            LazyVGrid(columns: columns, spacing: 2) {
+                                ForEach(favouriteBreedsViewModel.favouriteBreeds, id: \.id) { breed in
+                                    NavigationLink(value: breed) {
+                                        breedImageWithName(breed: breed, reader: reader)
+                                    }
                                 }
                             }
+                            .padding(.leading, 18)
+                            .padding(.trailing, 18)
                         }
-                        .padding(.leading, 18)
-                        .padding(.trailing, 18)
                     }
+                    .navigationBarTitle("Favourites", displayMode: .large)
                 }
-                .navigationBarTitle("Favourites", displayMode: .large)
             }
             .navigationDestination(for: FavouriteBreed.self) { breed in
                 let viewModel = BreedDetailsViewModel(imageUrl: breed.imageUrl, id: breed.id, breedName: breed.breedName)
@@ -59,6 +63,19 @@ struct FavouriteBreedsView: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: ((reader.size.width / 2) - 16), height: ((reader.size.width / 2) - 16) * 4/3 )
                     .cornerRadius(5)
+                
+                Button(action: {
+                    favouriteBreedsViewModel.onHeartTapped(id: breed.id)
+                }, label: {
+                    Image(systemName: "heart.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .shadow(radius: 30)
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(Color("DetailsColor"))
+                })
+                .position(x: (reader.size.width / 2) - 40, y: 25)
+                
                 ZStack (alignment: .center) {
                     breedNameFrame
                     breedName(breed: breed)
@@ -92,6 +109,12 @@ struct FavouriteBreedsView: View {
             .multilineTextAlignment(.center)
     }
     
+    var textForEmptyFavourites: some View {
+        Text("No breeds added to favourites")
+            .font(.custom("Trocchi-Regular", size: 18))
+            .multilineTextAlignment(.center)
+            .foregroundColor(Color("DetailsColor"))
+    }
 }
 
 struct FavouriteBreedsView_Previews: PreviewProvider {
