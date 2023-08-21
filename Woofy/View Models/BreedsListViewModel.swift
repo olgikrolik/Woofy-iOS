@@ -7,12 +7,6 @@
 
 import Foundation
 
-struct BreedInfo: Identifiable, Equatable, Hashable {
-    let id: Int
-    let name: String
-    let image: URL?
-}
-
 @MainActor
 class BreedsListViewModel: ObservableObject {
     
@@ -97,3 +91,10 @@ class BreedsListViewModel: ObservableObject {
     }
 }
 
+extension BreedsListViewModel {
+    struct BreedInfo: Identifiable, Equatable, Hashable {
+        let id: Int
+        let name: String
+        let image: URL?
+    }
+}

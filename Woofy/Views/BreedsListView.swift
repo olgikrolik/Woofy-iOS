@@ -39,7 +39,7 @@ struct BreedsListView: View {
                 }
                 .navigationBarTitle("Breeds", displayMode: .large)
             }
-            .navigationDestination(for: BreedInfo.self) { breed in
+            .navigationDestination(for: BreedsListViewModel.BreedInfo.self) { breed in
                 if let imageUrl = breed.image {
                     let viewModel = BreedDetailsViewModel.init(imageUrl: imageUrl, id: breed.id, breedName: breed.name)
                     BreedDetailsView.init(breedDetailsViewModel: viewModel)
@@ -67,7 +67,7 @@ struct BreedsListView: View {
             .edgesIgnoringSafeArea(.all)
     }
     
-    func breedImageWithName(breed: BreedInfo, reader: GeometryProxy) -> some View {
+    func breedImageWithName(breed: BreedsListViewModel.BreedInfo, reader: GeometryProxy) -> some View {
         AsyncImage(url: breed.image) { image in
             ZStack (alignment: .bottom) {
                 image
@@ -102,7 +102,7 @@ struct BreedsListView: View {
             .opacity(0.9)
     }
     
-    func breedName(breed: BreedInfo) -> some View {
+    func breedName(breed: BreedsListViewModel.BreedInfo) -> some View {
         Text(breed.name)
             .font(.custom("Trocchi-Regular", size: 14))
             .multilineTextAlignment(.center)

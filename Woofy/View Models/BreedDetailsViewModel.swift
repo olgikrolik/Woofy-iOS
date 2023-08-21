@@ -8,15 +8,6 @@
 import Foundation
 import SwiftUI
 
-struct BreedDetails {
-    let designation: String
-    let group: String
-    let lifeSpan: String
-    let temperament: [String]
-    let weight: String
-    let height: String
-}
-
 @MainActor
 class BreedDetailsViewModel: ObservableObject {
     
@@ -93,15 +84,14 @@ class BreedDetailsViewModel: ObservableObject {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
+extension BreedDetailsViewModel {
+    struct BreedDetails {
+        let designation: String
+        let group: String
+        let lifeSpan: String
+        let temperament: [String]
+        let weight: String
+        let height: String
+    }
+}
 

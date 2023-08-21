@@ -71,7 +71,7 @@ struct BreedDetailsView: View {
         }
     }
     
-    func breedIntroduction(horizontalPadding: CGFloat, breed: BreedDetails) -> some View {
+    func breedIntroduction(horizontalPadding: CGFloat, breed: BreedDetailsViewModel.BreedDetails) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 30)
                 .foregroundStyle(.ultraThinMaterial)
