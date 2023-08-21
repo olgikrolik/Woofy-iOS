@@ -70,7 +70,7 @@ struct FavouriteBreedsView: View {
                     Image(systemName: "heart.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .shadow(radius: 30)
+                        .shadow(radius: 5)
                         .frame(width: 30, height: 30)
                         .foregroundColor(Color("DetailsColor"))
                 })

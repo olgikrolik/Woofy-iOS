@@ -23,10 +23,9 @@ struct BreedDetailsView: View {
                     
                     ZStack(alignment: .bottom) {
                         breedImage(imageWidth: imageWidth, imageHeight: imageHeight)
-                        backgroundForBreedIntroduction(horizontalPadding: horizontalPadding)
                         breedIntroduction(horizontalPadding: horizontalPadding, breed: breedDetails)
                     }
-                    .frame(width: imageWidth, height: imageHeight + CGFloat((breedTitleHeight * 1/2)), alignment: .top)
+                    .frame(height: imageHeight + CGFloat((breedTitleHeight * 1/2)), alignment: .top)
                     
                     sectionWithImage(horizontalPadding: horizontalPadding, title: "About breed")
                     
@@ -39,7 +38,7 @@ struct BreedDetailsView: View {
                     .padding(.top, 15)
                     
                     sectionWithImage(horizontalPadding: horizontalPadding, title: "Temperament")
-                    temperamentalFeatures(temperament: breedDetails.temperament, horizontalPadding: horizontalPadding) //temperament String pomyśleć jak rozbić to w Array
+                    temperamentalFeatures(temperament: breedDetails.temperament, horizontalPadding: horizontalPadding)
                     
                     Spacer()
                 } else {
@@ -72,41 +71,45 @@ struct BreedDetailsView: View {
         }
     }
     
-    func backgroundForBreedIntroduction(horizontalPadding: CGFloat) -> some View {
-        RoundedRectangle(cornerRadius: 30)
-            .foregroundStyle(.ultraThinMaterial)
-            .shadow(radius: 20)
-            .opacity(0.9)
-            .frame(height: breedTitleHeight)
-            .padding(.horizontal, horizontalPadding)
-            .offset(y: CGFloat(breedTitleHeight * 1/2))
-    }
-    
     func breedIntroduction(horizontalPadding: CGFloat, breed: BreedDetails) -> some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(breedDetailsViewModel.breedName)
-                    .font(.custom("Trocchi-Regular", size: 20))
-                Text(mergeDefinitionAndDescription(definition: "Group:  ", description: breed.group))
-                    .font(.custom("Trocchi-Regular", size: 15))
-                    .opacity(0.7)
-                Text(mergeDefinitionAndDescription(definition: "Special skill: ", description: breed.designation))
-                    .font(.custom("Trocchi-Regular", size: 15))
-                    .opacity(0.7)
+        ZStack {
+            RoundedRectangle(cornerRadius: 30)
+                .foregroundStyle(.ultraThinMaterial)
+                .shadow(radius: 20)
+                .opacity(0.9)
+                .frame(height: breedTitleHeight)
+                .padding(.horizontal, horizontalPadding)
+            
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(breedDetailsViewModel.breedName)
+                        .font(.custom("Trocchi-Regular", size: 20))
+                    Text(mergeDefinitionAndDescription(definition: "Group:  ", description: breed.group))
+                        .font(.custom("Trocchi-Regular", size: 15))
+                        .opacity(0.7)
+                        .lineLimit(nil)
+                    Text(mergeDefinitionAndDescription(definition: "Special skill: ", description: breed.designation))
+                        .font(.custom("Trocchi-Regular", size: 15))
+                        .opacity(0.7)
+                        .lineLimit(nil)
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    breedDetailsViewModel.onHeartTapped()
+                }, label: {
+                    Image(systemName: breedDetailsViewModel.heartIconSystemName)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 30)
+                        .foregroundColor(breedDetailsViewModel.heartColor)
+                })
+                .padding(.horizontal, horizontalPadding)
             }
-            Button(action: {
-                breedDetailsViewModel.onHeartTapped()
-            }, label: {
-                Image(systemName: breedDetailsViewModel.heartIconSystemName)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 30)
-                    .foregroundColor(breedDetailsViewModel.heartColor)
-            })
-            .padding(.horizontal, horizontalPadding)
+            .padding(.horizontal, horizontalPadding + 20)
+            .frame(height: CGFloat(breedTitleHeight), alignment: .leading)
         }
-        .padding(.horizontal, horizontalPadding)
-        .frame(height: CGFloat(breedTitleHeight), alignment: .leading)
         .offset(y: CGFloat(breedTitleHeight * 1/2))
     }
     
