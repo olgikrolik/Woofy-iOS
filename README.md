@@ -15,3 +15,9 @@ Delve deeper into the fascinating world of dogs. Tap on a breed to reveal compre
 ### ❤️ Create Your Pawfect Favourites
 
 Create an exclusive collection of your beloved dog breeds by adding them to your favorites list. Whether you're a proud pup parent, a dog enthusiast, or simply admire these loyal companions, Woofy empowers you to curate a personalized list of breeds that warm your heart.
+
+
+<div align="center">
+    <img src="/ImagesAndGifs/AddToFavourites.gif" alt="Add to favourites">
+    <img src="/ImagesAndGifs/Searching.gif" alt="Searching">
+</div>
