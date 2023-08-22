@@ -24,7 +24,7 @@ Make your own special group of your favorite dog types by putting them in your f
 
 ## Tech Stack📱
 
-The application employs the following technology stack to power its functionality and deliver a seamless user experience:
+The application employs the following technology stack to power its functionality and deliver better user experience:
 * SwiftUI for the user interface
 * MVVM architectural pattern for structuring the codebase
 * Swift Package Manager for managing dependencies
