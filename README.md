@@ -29,6 +29,7 @@ The application employs the following technology stack to power its functionalit
 * MVVM architectural pattern for structuring the codebase
 * Swift Package Manager for managing dependencies
 * API integration with [Dog API](https://www.thedogapi.com/)
+* UserDefaults for storing favourites list locally
 * Pagination for handling large data sets
 * Search functionality for allowing users to search and filter data
 
